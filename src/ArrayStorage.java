@@ -27,9 +27,9 @@ public class ArrayStorage {
         int resumeIndex = findResumeIndex(uuid);
         if (resumeIndex > -1) {
             currentIndex--;
-        }
-        for (int i = resumeIndex; i < currentIndex - 1; i++) {
-            storage[i] = storage[i + 1];
+            for (int i = resumeIndex; i < currentIndex - 1; i++) {
+                storage[i] = storage[i + 1];
+            }
         }
     }
 
