@@ -16,7 +16,11 @@ public class ArrayStorage {
 
     void save(Resume resume) {
         if (currentIndex < storage.length) {
-            storage[currentIndex++] = resume;
+            if (findResumeIndex(resume.getUuid()) == -1) {
+                storage[currentIndex++] = resume;
+            } else {
+                System.out.println("Такое резюме уже есть в базе!");
+            }
         } else {
             System.out.println("Закончилось место в массиве!");
         }
