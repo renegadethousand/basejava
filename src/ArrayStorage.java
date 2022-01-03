@@ -4,7 +4,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    Resume[] storage = new Resume[3];
     int currentIndex = 0;
 
     void clear() {
@@ -15,7 +15,11 @@ public class ArrayStorage {
     }
 
     void save(Resume resume) {
-        storage[currentIndex++] = resume;
+        if (currentIndex < storage.length) {
+            storage[currentIndex++] = resume;
+        } else {
+            System.out.println("Закончилось место в массиве!");
+        }
     }
 
     Resume get(String uuid) {
@@ -30,6 +34,8 @@ public class ArrayStorage {
             for (int i = resumeIndex; i < currentIndex - 1; i++) {
                 storage[i] = storage[i + 1];
             }
+        } else {
+            System.out.println("Элемент "  + uuid + " в базе не найден!");
         }
     }
 
