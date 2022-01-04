@@ -8,8 +8,8 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[3];
-    private int size = 0;
+    private Resume[] storage = new Resume[10_000];
+    private int size;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -21,7 +21,7 @@ public class ArrayStorage {
             if (findResumeIndex(resume.getUuid()) == -1) {
                 storage[size++] = resume;
             } else {
-                System.out.println("Такое резюме уже есть в базе!");
+                System.out.println("Резюме с uuid " + resume.getUuid() + "уже есть в базе!");
             }
         } else {
             System.out.println("Закончилось место в массиве!");
@@ -29,17 +29,21 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int resumeIndex = findResumeIndex(uuid);
-        return resumeIndex > -1 ? storage[resumeIndex] : null;
+        int index = findResumeIndex(uuid);
+        if (index > -1) {
+            System.out.println("Резюме с uuid " + uuid + " найдено в базе!");
+            return storage[index];
+        } else {
+            System.out.println("Резюме с uuid " + uuid + " ненайдено в базе!");
+            return null;
+        }
     }
 
     public void delete(String uuid) {
-        int resumeIndex = findResumeIndex(uuid);
-        if (resumeIndex > -1) {
+        int index = findResumeIndex(uuid);
+        if (index > -1) {
             size--;
-            for (int i = resumeIndex; i < size - 1; i++) {
-                storage[i] = storage[i + 1];
-            }
+            if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         } else {
             System.out.println("Элемент "  + uuid + " в базе не найден!");
         }
@@ -66,9 +70,9 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int resumeIndex = findResumeIndex(resume.getUuid());
-        if (resumeIndex > -1) {
-            storage[resumeIndex] = resume;
+        int index = findResumeIndex(resume.getUuid());
+        if (index > -1) {
+            storage[index] = resume;
         } else {
             System.out.println("Резюме с uuid " + resume.getUuid() + " в базе ненайдено!");
         }
