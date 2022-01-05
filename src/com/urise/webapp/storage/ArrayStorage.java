@@ -7,49 +7,19 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private Resume[] storage = new Resume[10_000];
-    private int size;
-
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
+public class ArrayStorage extends AbstractArrayStorage {
 
     public void save(Resume resume) {
-        if (size < storage.length) {
-            if (findResumeIndex(resume.getUuid()) == -1) {
-                storage[size++] = resume;
-            } else {
-                System.out.println("Резюме с uuid " + resume.getUuid() + "уже есть в базе!");
-            }
-        } else {
+        if (size == STORAGE_LIMIT) {
             System.out.println("Закончилось место в массиве!");
-        }
-    }
-
-    public Resume get(String uuid) {
-        int index = findResumeIndex(uuid);
-        if (index > -1) {
-            System.out.println("Резюме с uuid " + uuid + " найдено в базе!");
-            return storage[index];
+        } else if (getIndex(resume.getUuid()) == -1) {
+            storage[size++] = resume;
         } else {
-            System.out.println("Резюме с uuid " + uuid + " ненайдено в базе!");
-            return null;
+            System.out.println("Резюме с uuid " + resume.getUuid() + "уже есть в базе!");
         }
     }
 
-    public void delete(String uuid) {
-        int index = findResumeIndex(uuid);
-        if (index > -1) {
-            size--;
-            if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
-        } else {
-            System.out.println("Элемент "  + uuid + " в базе не найден!");
-        }
-    }
-
-    private int findResumeIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -61,16 +31,8 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
-
-    public int size() {
-        return size;
-    }
-
     public void update(Resume resume) {
-        int index = findResumeIndex(resume.getUuid());
+        int index = getIndex(resume.getUuid());
         if (index > -1) {
             storage[index] = resume;
         } else {
