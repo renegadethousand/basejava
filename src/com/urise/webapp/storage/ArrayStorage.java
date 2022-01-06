@@ -1,9 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.model.Resume;
-
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
@@ -15,6 +11,6 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        return -1;
+        return -(size + 1);
     }
 }
