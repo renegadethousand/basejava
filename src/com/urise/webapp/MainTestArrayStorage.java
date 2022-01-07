@@ -9,7 +9,7 @@ import com.urise.webapp.storage.Storage;
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         final Resume r1 = new Resume();
@@ -19,9 +19,9 @@ public class MainTestArrayStorage {
         final Resume r3 = new Resume();
         r3.setUuid("uuid3");
 
+        ARRAY_STORAGE.save(r3);
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
-        ARRAY_STORAGE.save(r3);
         r3.setUuid("uuid33");
         ARRAY_STORAGE.update(r3);
 
