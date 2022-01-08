@@ -17,6 +17,10 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
+    protected void prepareArray(int insertionIndex) {
+    }
+
+    @Override
     public void save(Resume resume) {
         if (size == STORAGE_LIMIT) {
             System.out.println("Закончилось место в массиве!");
