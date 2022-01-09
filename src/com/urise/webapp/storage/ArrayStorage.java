@@ -13,12 +13,11 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        return -(size + 1);
+        return -1;
     }
 
     @Override
     protected void saveResume(int index, Resume resume) {
-        int insertionIndex = Math.abs(index + 1);
-        storage[insertionIndex] = resume;
+        storage[size] = resume;
     }
 }
