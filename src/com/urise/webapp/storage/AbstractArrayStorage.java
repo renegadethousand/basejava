@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -18,12 +21,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            System.out.println("Резюме с uuid " + uuid + " найдено в базе!");
             return storage[index];
         }
-
-        System.out.println("Резюме с uuid " + uuid + " ненайдено в базе!");
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     protected abstract int getIndex(String uuid);
@@ -41,33 +41,35 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
+            fillDeletedElement(index);
+            storage[size - 1] = null;
             size--;
-            if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         } else {
-            System.out.println("Элемент "  + uuid + " в базе не найден!");
+            throw new NotExistStorageException(uuid);
         }
     }
+
+    protected abstract void fillDeletedElement(int index);
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
         } else {
-            System.out.println("Резюме с uuid " + resume.getUuid() + " в базе ненайдено!");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
     @Override
     public void save(Resume resume) {
         if (size == STORAGE_LIMIT) {
-            System.out.println("Закончилось место в массиве!");
-            return;
+            throw new StorageException("Закончилось место в массиве!", resume.getUuid());
         }
 
         int index = getIndex(resume.getUuid());
 
         if (index >= 0) {
-            System.out.println("Резюме с uuid " + resume.getUuid() + "уже есть в базе!");
+           throw new ExistStorageException(resume.getUuid());
         } else {
             saveResume(index, resume);
             size++;
