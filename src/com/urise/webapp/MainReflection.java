@@ -18,7 +18,6 @@ public class MainReflection {
         Object o1 = declaredField.get(resume);
         Method toString = resume.getClass().getDeclaredMethod("toString");
         toString.invoke(resume);
-        // TODO : invoke resume.toString via reflection
         System.out.println(resume);
     }
 }

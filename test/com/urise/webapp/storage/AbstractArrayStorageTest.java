@@ -8,7 +8,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest {
 
@@ -55,17 +57,18 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] all = storage.getAll();
-        Assert.assertEquals(all[0], storage.get(UUID_1));
-        Assert.assertEquals(all[1], storage.get(UUID_2));
-        Assert.assertEquals(all[2], storage.get(UUID_3));
-        Assert.assertEquals(3, storage.size());
+        Resume[] expected = new Resume[3];
+        expected[0] = new Resume(UUID_1);
+        expected[1] = new Resume(UUID_2);
+        expected[2] = new Resume(UUID_3);
+        assertArrayEquals(expected, storage.getAll());
     }
 
-    @Test
+    @Test(expected = NotExistStorageException.class)
     public void delete() {
+        storage.get(UUID_1);
         storage.delete(UUID_1);
-        Assert.assertEquals(2, storage.size());
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -91,6 +94,7 @@ public abstract class AbstractArrayStorageTest {
         Resume resume = new Resume(UUID_4);
         storage.save(resume);
         assertEquals(resume, storage.get(UUID_4));
+        assertEquals(4, storage.size());
     }
 
     @Test(expected = ExistStorageException.class)
@@ -101,8 +105,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void saveOverflow() {
+        storage.clear();
         try {
-            for (int i = 0; i < 9997; i++) {
+            for (int i = 0; i < 10_000; i++) {
                 storage.save(new Resume());
             }
         } catch (StorageException exception) {
