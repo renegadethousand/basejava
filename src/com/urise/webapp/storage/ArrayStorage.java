@@ -19,6 +19,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void saveResume(int index, Resume resume) {
+        checkArraySize();
         storage[size] = resume;
         size++;
     }
@@ -26,5 +27,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void fillDeletedElement(int index) {
         storage[index] = storage[size - 1];
+        storage[size - 1] = null;
+        size--;
     }
 }

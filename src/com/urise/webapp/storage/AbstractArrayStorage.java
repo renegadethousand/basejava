@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -29,17 +28,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    @Override
     protected void checkArraySize() {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Закончилось место в массиве!", "");
         }
-    }
-
-    @Override
-    protected void decreaseArray() {
-        storage[size - 1] = null;
-        size--;
     }
 
     @Override

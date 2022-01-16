@@ -3,11 +3,12 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    protected List<Resume> storage = new ArrayList<>();
+    private List<Resume> storage = new ArrayList<>();
 
     @Override
     protected int getIndex(String uuid) {
@@ -22,16 +23,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected void fillDeletedElement(int index) {
         storage.remove(index);
-    }
-
-    @Override
-    protected void checkArraySize() {
-
-    }
-
-    @Override
-    protected void decreaseArray() {
-
     }
 
     @Override
@@ -51,7 +42,8 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) storage.toArray();
+        Object[] array = storage.toArray();
+        return Arrays.copyOf(array, array.length, Resume[].class);
     }
 
     @Override
