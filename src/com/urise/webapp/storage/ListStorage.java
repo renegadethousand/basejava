@@ -21,17 +21,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void fillDeletedElement(int index) {
+    protected void deleteResume(int index) {
         storage.remove(index);
     }
 
     @Override
-    protected Resume getElement(int index) {
+    protected Resume getResume(int index) {
         return storage.get(index);
     }
 
     @Override
-    protected void updateElement(int index, Resume resume) {
+    protected void updateResume(int index, Resume resume) {
         storage.set(index, resume);
     }
 

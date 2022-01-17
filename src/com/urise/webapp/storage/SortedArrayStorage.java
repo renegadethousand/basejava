@@ -12,20 +12,16 @@ public class SortedArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    protected void saveResume(int index, Resume resume) {
-        checkArraySize();
+    protected void saveElement(int index, Resume resume) {
         int insertionIndex = -index - 1;
         if (size > 0) {
             System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size - insertionIndex);
         }
         storage[insertionIndex] = resume;
-        size++;
     }
 
     @Override
-    protected void fillDeletedElement(int index) {
+    protected void deleteElement(int index) {
         if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
-        storage[size - 1] = null;
-        size--;
     }
 }
