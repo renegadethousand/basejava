@@ -9,56 +9,30 @@ import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
 
-    private Map<String, Resume> storage = new HashMap();
+    private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected int getIndex(String uuid) {
-        int index = -1;
-        Iterator<Map.Entry<String, Resume>> iterator = storage.entrySet().iterator();
-        while (iterator.hasNext()) {
-            index++;
-            Map.Entry<String, Resume> entry = iterator.next();
-            if (entry.getKey().equals(uuid)) {
-                return index;
-            }
-        }
-        return -1;
+    protected boolean isExist(Resume resume) {
+        return storage.containsKey(resume.getUuid());
     }
 
     @Override
-    protected void saveResume(int index, Resume resume) {
+    protected void saveResume(Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void deleteResume(int index) {
-        int currentIndex = -1;
-        Iterator<Map.Entry<String, Resume>> iterator = storage.entrySet().iterator();
-        while (iterator.hasNext()) {
-            currentIndex++;
-            iterator.next();
-            if (currentIndex == index) {
-                iterator.remove();
-            }
-        }
+    protected void deleteResume(String uuid) {
+        storage.remove(uuid);
     }
 
     @Override
-    protected Resume getResume(int index) {
-        int currentIndex = -1;
-        Iterator<Map.Entry<String, Resume>> iterator = storage.entrySet().iterator();
-        while (iterator.hasNext()) {
-            currentIndex++;
-            Map.Entry<String, Resume> entry = iterator.next();
-            if (currentIndex == index) {
-                return entry.getValue();
-            }
-        }
-        return null;
+    protected Resume getResume(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
-    protected void updateResume(int index, Resume resume) {
+    protected void updateResume(Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
