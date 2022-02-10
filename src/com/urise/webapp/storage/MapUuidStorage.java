@@ -2,38 +2,37 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-
-    private final List<Resume> storage = new ArrayList<>();
+public class MapUuidStorage extends MapStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return (int) searchKey >= 0;
+        return storage.containsKey((String) searchKey);
     }
 
     @Override
     protected void doSave(Object searchKey, Resume resume) {
-        storage.add(resume);
+        storage.put((String) searchKey, resume);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.remove((int) searchKey);
+        storage.remove((String) searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get((int) searchKey);
+        return storage.get((String) searchKey);
     }
 
     @Override
     protected void doUpdate(Object searchKey, Resume resume) {
-        storage.set((int) searchKey, resume);
+        storage.put((String) searchKey, resume);
     }
 
     @Override
@@ -43,8 +42,8 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> resumes = Arrays.asList(storage.toArray(new Resume[0]));
-        resumes.sort(Comparator.naturalOrder());
+        List<Resume> resumes = Arrays.asList(storage.values().toArray(new Resume[0]));
+        resumes.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getFullName));
         return resumes;
     }
 
@@ -55,11 +54,6 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
+        return uuid;
     }
 }

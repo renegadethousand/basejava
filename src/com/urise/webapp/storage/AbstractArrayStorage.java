@@ -4,6 +4,8 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -11,6 +13,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
+
+    protected abstract void saveElement(Object searchKey, Resume resume);
+
+    protected abstract void deleteElement(int searchKey);
 
     @Override
     public int size() {
@@ -24,22 +30,24 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Object searchKey, Resume resume) {
+    protected void doSave(Object searchKey, Resume resume) {
         checkArraySize();
         saveElement(searchKey, resume);
         size++;
     }
 
     @Override
-    protected void deleteResume(Object searchKey) {
+    protected void doDelete(Object searchKey) {
         deleteElement((int) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = Arrays.asList(Arrays.copyOf(storage, size));
+        resumes.sort(Comparator.naturalOrder());
+        return resumes;
     }
 
     protected void checkArraySize() {
@@ -54,16 +62,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
+    protected Resume doGet(Object searchKey) {
         return storage[(int) searchKey];
     }
 
     @Override
-    protected void updateResume(Object searchKey, Resume resume) {
+    protected void doUpdate(Object searchKey, Resume resume) {
         storage[(int) searchKey] = resume;
     }
-
-    protected abstract void saveElement(Object searchKey, Resume resume);
-
-    protected abstract void deleteElement(int searchKey);
 }
