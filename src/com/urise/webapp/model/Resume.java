@@ -13,8 +13,6 @@ public class Resume implements Comparable<Resume> {
 
     private String fullName;
 
-    public static String EMPTY_NAME = "EMPTY";
-
     public Resume(String fullName) {
         this.uuid = UUID.randomUUID().toString();
         this.fullName = fullName;
