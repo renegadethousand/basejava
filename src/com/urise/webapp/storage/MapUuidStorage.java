@@ -2,13 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class MapUuidStorage extends MapStorage {
+public class MapUuidStorage extends AbstractMapStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
@@ -33,23 +27,6 @@ public class MapUuidStorage extends MapStorage {
     @Override
     protected void doUpdate(Object searchKey, Resume resume) {
         storage.put((String) searchKey, resume);
-    }
-
-    @Override
-    public void clear() {
-        storage.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> resumes = Arrays.asList(storage.values().toArray(new Resume[0]));
-        resumes.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getFullName));
-        return resumes;
-    }
-
-    @Override
-    public int size() {
-        return storage.size();
     }
 
     @Override

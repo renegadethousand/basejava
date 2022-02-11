@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -57,11 +58,14 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] expected = new Resume[]{new Resume(UUID_1, "Empty"), new Resume(UUID_2, "Empty"), new Resume(UUID_3, "Empty")};
-        Resume[] actual = storage.getAllSorted().toArray(new Resume[0]);
-        Arrays.sort(actual);
-        assertArrayEquals(expected, actual);
+    public void getAllSorted() {
+        List<Resume> expected = List.of(
+                new Resume(UUID_1, Resume.EMPTY_NAME),
+                new Resume(UUID_2, Resume.EMPTY_NAME),
+                new Resume(UUID_3, Resume.EMPTY_NAME));
+
+        List<Resume> actual = storage.getAllSorted();
+        assertEquals(expected, actual);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -78,20 +82,20 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume(UUID_3, "Empty");
+        Resume resume = new Resume(UUID_3, Resume.EMPTY_NAME);
         storage.update(resume);
         assertEquals(resume, storage.get(UUID_3));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        Resume resume = new Resume(NOT_EXIST_UUID, "Empty");
+        Resume resume = new Resume(NOT_EXIST_UUID, Resume.EMPTY_NAME);
         storage.update(resume);
     }
 
     @Test
     public void save() {
-        Resume resume = new Resume(UUID_4, "Empty");
+        Resume resume = new Resume(UUID_4, Resume.EMPTY_NAME);
         storage.save(resume);
         assertEquals(resume, storage.get(UUID_4));
         assertEquals(4, storage.size());
@@ -99,7 +103,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
-        Resume resume = new Resume(UUID_3, "Empty");
+        Resume resume = new Resume(UUID_3, Resume.EMPTY_NAME);
         storage.save(resume);
     }
 }
