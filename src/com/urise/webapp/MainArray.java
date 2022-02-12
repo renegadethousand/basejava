@@ -18,14 +18,14 @@ public class MainArray {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume resume;
         while (true) {
-            System.out.print("Введите одну из команд - (list | size | save uuid | delete uuid | get uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | size | save fullName | delete uuid | get uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
             if (params.length < 1 || params.length > 2) {
                 System.out.println("Неверная команда.");
                 continue;
             }
             String uuid = null;
-            if (params.length == 2) {
+            if (params.length == 3) {
                 uuid = params[1].intern();
             }
             switch (params[0]) {
@@ -36,7 +36,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    resume = new Resume(uuid, "Empty");
+                    resume = new Resume(uuid, "EMPTY");
                     ARRAY_STORAGE.save(resume);
                     printAll();
                     break;
@@ -64,7 +64,7 @@ public class MainArray {
         Resume[] all = ARRAY_STORAGE.getAllSorted().toArray(new Resume[0]);
         System.out.println("----------------------------");
         if (all.length == 0) {
-            System.out.println("Empty");
+            System.out.println("EMPTY");
         } else {
             for (Resume r : all) {
                 System.out.println(r);

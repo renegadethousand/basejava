@@ -10,7 +10,7 @@ import java.util.List;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveElement(Object searchKey, Resume resume) {
+    protected void saveElement(Integer searchKey, Resume resume) {
         storage[size] = resume;
     }
 
@@ -20,7 +20,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;

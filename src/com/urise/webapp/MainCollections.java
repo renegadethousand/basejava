@@ -16,15 +16,15 @@ public class MainCollections {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Empty");
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Empty");
-    private static final Resume RESUME_3 = new Resume(UUID_3, "Empty");
+    private static final Resume RESUME_1 = new Resume(UUID_1, "EMPTY");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "EMPTY");
+    private static final Resume RESUME_3 = new Resume(UUID_3, "EMPTY");
 
     public static void main(String[] args) {
         Collection<Resume> collection = new ArrayList();
-        collection.add(new Resume(UUID_1, "Empty"));
-        collection.add(new Resume(UUID_2, "Empty"));
-        collection.add(new Resume(UUID_3, "Empty"));
+        collection.add(new Resume(UUID_1, "EMPTY"));
+        collection.add(new Resume(UUID_2, "EMPTY"));
+        collection.add(new Resume(UUID_3, "EMPTY"));
 
         for (Resume resume : collection) {
             System.out.println(resume);
