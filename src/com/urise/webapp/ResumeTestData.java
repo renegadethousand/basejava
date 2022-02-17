@@ -2,7 +2,7 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.AchievementInformation;
 import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.ExpirienceInformation;
+import com.urise.webapp.model.ExperienceInformation;
 import com.urise.webapp.model.GeneralInformation;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.model.ResumeSection;
@@ -51,124 +51,124 @@ public class ResumeTestData {
         qualifications.getText().add("Родной русский, английский \"upper intermediate\"");
         resume.getResumeInfo().put(SectionType.QUALIFICATIONS, qualifications);
 
-        ExpirienceInformation expirienceInformation = new ExpirienceInformation();
+        ExperienceInformation expirienceInformation = new ExperienceInformation();
 
-        ExpirienceInformation.Expiriense expiriense_1 = new ExpirienceInformation().new Expiriense();
-        expiriense_1.setTitle("Java Online Projects");
-        expiriense_1.setPosition("Автор проекта.");
-        expiriense_1.setStartDate(LocalDate.of(2013,10,1));
-        expiriense_1.setEndDate(LocalDate.of(1,1,1));
-        expiriense_1.setText("Создание, организация и проведение Java онлайн проектов и стажировок.");
-        expirienceInformation.getExpirienseList().add(expiriense_1);
+        ExperienceInformation.Experiense experiense_1 = new ExperienceInformation().new Experiense();
+        experiense_1.setTitle("Java Online Projects");
+        experiense_1.setPosition("Автор проекта.");
+        experiense_1.setStartDate(LocalDate.of(2013,10,1));
+        experiense_1.setEndDate(LocalDate.of(1,1,1));
+        experiense_1.setText("Создание, организация и проведение Java онлайн проектов и стажировок.");
+        expirienceInformation.getExperienceList().add(experiense_1);
 
-        ExpirienceInformation.Expiriense expiriense_2 = new ExpirienceInformation().new Expiriense();
-        expiriense_2.setTitle("Wrike");
-        expiriense_2.setPosition("Старший разработчик (backend)");
-        expiriense_2.setStartDate(LocalDate.of(2014,10,1));
-        expiriense_2.setEndDate(LocalDate.of(2016,1,1));
-        expiriense_2.setText("Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        expirienceInformation.getExpirienseList().add(expiriense_2);
+        ExperienceInformation.Experiense experiense_2 = new ExperienceInformation().new Experiense();
+        experiense_2.setTitle("Wrike");
+        experiense_2.setPosition("Старший разработчик (backend)");
+        experiense_2.setStartDate(LocalDate.of(2014,10,1));
+        experiense_2.setEndDate(LocalDate.of(2016,1,1));
+        experiense_2.setText("Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
+        expirienceInformation.getExperienceList().add(experiense_2);
 
-        ExpirienceInformation.Expiriense expiriense_3 = new ExpirienceInformation().new Expiriense();
-        expiriense_3.setTitle("RIT Center");
-        expiriense_3.setPosition("Java архитектор");
-        expiriense_3.setStartDate(LocalDate.of(2012,02,1));
-        expiriense_3.setEndDate(LocalDate.of(2014,10,1));
-        expiriense_3.setText("Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
-        expirienceInformation.getExpirienseList().add(expiriense_3);
+        ExperienceInformation.Experiense experiense_3 = new ExperienceInformation().new Experiense();
+        experiense_3.setTitle("RIT Center");
+        experiense_3.setPosition("Java архитектор");
+        experiense_3.setStartDate(LocalDate.of(2012,02,1));
+        experiense_3.setEndDate(LocalDate.of(2014,10,1));
+        experiense_3.setText("Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
+        expirienceInformation.getExperienceList().add(experiense_3);
 
-        ExpirienceInformation.Expiriense expiriense_4 = new ExpirienceInformation().new Expiriense();
-        expiriense_4.setTitle("Luxoft (Deutsche Bank)");
-        expiriense_4.setPosition("Ведущий программист");
-        expiriense_4.setStartDate(LocalDate.of(2010,12,1));
-        expiriense_4.setEndDate(LocalDate.of(2012,04,1));
-        expiriense_4.setText("Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.");
-        expirienceInformation.getExpirienseList().add(expiriense_4);
+        ExperienceInformation.Experiense experiense_4 = new ExperienceInformation().new Experiense();
+        experiense_4.setTitle("Luxoft (Deutsche Bank)");
+        experiense_4.setPosition("Ведущий программист");
+        experiense_4.setStartDate(LocalDate.of(2010,12,1));
+        experiense_4.setEndDate(LocalDate.of(2012,04,1));
+        experiense_4.setText("Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.");
+        expirienceInformation.getExperienceList().add(experiense_4);
 
-        ExpirienceInformation.Expiriense expiriense_5 = new ExpirienceInformation().new Expiriense();
-        expiriense_5.setTitle("Yota");
-        expiriense_5.setPosition("Ведущий специалист");
-        expiriense_5.setStartDate(LocalDate.of(2008,06,1));
-        expiriense_5.setEndDate(LocalDate.of(2010,12,1));
-        expiriense_5.setText("Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)");
-        expirienceInformation.getExpirienseList().add(expiriense_5);
+        ExperienceInformation.Experiense experiense_5 = new ExperienceInformation().new Experiense();
+        experiense_5.setTitle("Yota");
+        experiense_5.setPosition("Ведущий специалист");
+        experiense_5.setStartDate(LocalDate.of(2008,06,1));
+        experiense_5.setEndDate(LocalDate.of(2010,12,1));
+        experiense_5.setText("Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)");
+        expirienceInformation.getExperienceList().add(experiense_5);
 
-        ExpirienceInformation.Expiriense expiriense_6 = new ExpirienceInformation().new Expiriense();
-        expiriense_6.setTitle("Enkata");
-        expiriense_6.setPosition("Разработчик ПО");
-        expiriense_6.setStartDate(LocalDate.of(2007,03,1));
-        expiriense_6.setEndDate(LocalDate.of(2008,06,1));
-        expiriense_6.setText("Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).");
-        expirienceInformation.getExpirienseList().add(expiriense_6);
+        ExperienceInformation.Experiense experiense_6 = new ExperienceInformation().new Experiense();
+        experiense_6.setTitle("Enkata");
+        experiense_6.setPosition("Разработчик ПО");
+        experiense_6.setStartDate(LocalDate.of(2007,03,1));
+        experiense_6.setEndDate(LocalDate.of(2008,06,1));
+        experiense_6.setText("Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).");
+        expirienceInformation.getExperienceList().add(experiense_6);
 
-        ExpirienceInformation.Expiriense expiriense_7 = new ExpirienceInformation().new Expiriense();
-        expiriense_7.setTitle("Siemens AG");
-        expiriense_7.setPosition("Разработчик ПО");
-        expiriense_7.setStartDate(LocalDate.of(2005,1,1));
-        expiriense_7.setEndDate(LocalDate.of(2007,2,1));
-        expiriense_7.setText("Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
-        expirienceInformation.getExpirienseList().add(expiriense_7);
+        ExperienceInformation.Experiense experiense_7 = new ExperienceInformation().new Experiense();
+        experiense_7.setTitle("Siemens AG");
+        experiense_7.setPosition("Разработчик ПО");
+        experiense_7.setStartDate(LocalDate.of(2005,1,1));
+        experiense_7.setEndDate(LocalDate.of(2007,2,1));
+        experiense_7.setText("Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
+        expirienceInformation.getExperienceList().add(experiense_7);
 
-        ExpirienceInformation.Expiriense expiriense_8 = new ExpirienceInformation().new Expiriense();
-        expiriense_8.setTitle("Alcatel");
-        expiriense_8.setPosition("Ведущий программист");
-        expiriense_8.setStartDate(LocalDate.of(1997,9,1));
-        expiriense_8.setEndDate(LocalDate.of(2005,1,1));
-        expiriense_8.setText("Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
-        expirienceInformation.getExpirienseList().add(expiriense_8);
+        ExperienceInformation.Experiense experiense_8 = new ExperienceInformation().new Experiense();
+        experiense_8.setTitle("Alcatel");
+        experiense_8.setPosition("Ведущий программист");
+        experiense_8.setStartDate(LocalDate.of(1997,9,1));
+        experiense_8.setEndDate(LocalDate.of(2005,1,1));
+        experiense_8.setText("Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
+        expirienceInformation.getExperienceList().add(experiense_8);
 
         resume.getResumeInfo().put(SectionType.EXPERIENCE, expirienceInformation);
 
-        ExpirienceInformation educationInformation = new ExpirienceInformation();
+        ExperienceInformation educationInformation = new ExperienceInformation();
 
-        ExpirienceInformation.Expiriense education_1 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_1 = new ExperienceInformation().new Experiense();
         education_1.setTitle("Coursera");
         education_1.setStartDate(LocalDate.of(2013,3,1));
         education_1.setEndDate(LocalDate.of(2013,5,1));
         education_1.setText("\t\"Functional Programming Principles in Scala\" by Martin Odersky");
-        educationInformation.getExpirienseList().add(education_1);
+        educationInformation.getExperienceList().add(education_1);
 
-        ExpirienceInformation.Expiriense education_2 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_2 = new ExperienceInformation().new Experiense();
         education_2.setTitle("Luxoft");
         education_2.setStartDate(LocalDate.of(2011,3,1));
         education_2.setEndDate(LocalDate.of(2011,4,1));
         education_2.setText("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"");
-        educationInformation.getExpirienseList().add(education_2);
+        educationInformation.getExperienceList().add(education_2);
 
-        ExpirienceInformation.Expiriense education_3 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_3 = new ExperienceInformation().new Experiense();
         education_3.setTitle("Siemens AG");
         education_3.setStartDate(LocalDate.of(2005,1,1));
         education_3.setEndDate(LocalDate.of(2005,4,1));
         education_3.setText("3 месяца обучения мобильным IN сетям (Берлин)");
-        educationInformation.getExpirienseList().add(education_3);
+        educationInformation.getExperienceList().add(education_3);
 
-        ExpirienceInformation.Expiriense education_4 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_4 = new ExperienceInformation().new Experiense();
         education_4.setTitle("Alcatel");
         education_4.setStartDate(LocalDate.of(1997,9,1));
         education_4.setEndDate(LocalDate.of(1998,3,1));
         education_4.setText("6 месяцев обучения цифровым телефонным сетям (Москва)");
-        educationInformation.getExpirienseList().add(education_4);
+        educationInformation.getExperienceList().add(education_4);
 
-        ExpirienceInformation.Expiriense education_5 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_5 = new ExperienceInformation().new Experiense();
         education_5.setTitle("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики");
         education_5.setStartDate(LocalDate.of(1993,9,1));
         education_5.setEndDate(LocalDate.of(1996,7,1));
         education_5.setText("Аспирантура (программист С, С++)");
-        educationInformation.getExpirienseList().add(education_5);
+        educationInformation.getExperienceList().add(education_5);
 
-        ExpirienceInformation.Expiriense education_6 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_6 = new ExperienceInformation().new Experiense();
         education_6.setTitle("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики");
         education_6.setStartDate(LocalDate.of(1987,9,1));
         education_6.setEndDate(LocalDate.of(1993,7,1));
         education_6.setText("Инженер (программист Fortran, C)");
-        educationInformation.getExpirienseList().add(education_6);
+        educationInformation.getExperienceList().add(education_6);
 
-        ExpirienceInformation.Expiriense education_7 = new ExpirienceInformation().new Expiriense();
+        ExperienceInformation.Experiense education_7 = new ExperienceInformation().new Experiense();
         education_7.setTitle("Заочная физико-техническая школа при МФТИ");
         education_7.setStartDate(LocalDate.of(1984,9,1));
         education_7.setEndDate(LocalDate.of(1987,6,1));
         education_7.setText("Закончил с отличием");
-        educationInformation.getExpirienseList().add(education_7);
+        educationInformation.getExperienceList().add(education_7);
 
         resume.getResumeInfo().put(SectionType.EDUCATION, educationInformation);
 
@@ -182,7 +182,7 @@ public class ResumeTestData {
 
         for (Map.Entry<SectionType, ResumeSection> resumeSection : resume.getResumeInfo().entrySet()) {
             System.out.println(resumeSection.getKey().getTitle());
-            resumeSection.getValue().print();
+            System.out.println(resumeSection.getValue().toString());
             System.out.println();
         }
 

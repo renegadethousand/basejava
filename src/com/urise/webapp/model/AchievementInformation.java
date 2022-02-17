@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AchievementInformation implements ResumeSection {
 
-    List<String> text = new ArrayList<>();
+    private List<String> text = new ArrayList<>();
 
     public List<String> getText() {
         return text;
@@ -16,19 +16,11 @@ public class AchievementInformation implements ResumeSection {
     }
 
     @Override
-    public String read() {
-        return null;
-    }
-
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void print() {
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (String s : text) {
-            System.out.println(s);
+            stringBuilder.append(s);
         }
+        return stringBuilder.toString();
     }
 }

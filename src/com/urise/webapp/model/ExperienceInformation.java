@@ -4,43 +4,35 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpirienceInformation implements ResumeSection {
+public class ExperienceInformation implements ResumeSection {
 
-    List<Expiriense> expirienseList = new ArrayList<>();
+    private List<Experiense> experienceList = new ArrayList<>();
 
-    public List<Expiriense> getExpirienseList() {
-        return expirienseList;
+    public List<Experiense> getExperienceList() {
+        return experienceList;
     }
 
-    public void setExpirienseList(List<Expiriense> expirienseList) {
-        this.expirienseList = expirienseList;
-    }
-
-    @Override
-    public String read() {
-        return null;
+    public void setExperienceList(List<Experiense> experienceList) {
+        this.experienceList = experienceList;
     }
 
     @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void print() {
-        for (Expiriense expiriense : expirienseList) {
-            System.out.println(expiriense.getTitle());
-            if (expiriense.getPosition() != null) {
-                System.out.println(expiriense.getPosition());
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Experiense experiense : experienceList) {
+            stringBuilder.append(experiense.getTitle());
+            if (experiense.getPosition() != null) {
+                stringBuilder.append(experiense.getPosition());
             }
-            System.out.println(expiriense.getStartDate());
-            System.out.println(expiriense.getEndDate());
-            System.out.println(expiriense.getText());
-            System.out.println();
+            stringBuilder.append(experiense.getStartDate());
+            stringBuilder.append(experiense.getEndDate());
+            stringBuilder.append(experiense.getText());
+            stringBuilder.append("\n");
         }
+        return stringBuilder.toString();
     }
 
-    public class Expiriense {
+    public class Experiense {
 
         String title;
         String position;

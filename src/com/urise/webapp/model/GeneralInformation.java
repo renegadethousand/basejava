@@ -4,7 +4,7 @@ import java.util.List;
 
 public class GeneralInformation implements ResumeSection {
 
-    String text;
+    private String text;
 
     public String getText() {
         return text;
@@ -15,17 +15,9 @@ public class GeneralInformation implements ResumeSection {
     }
 
     @Override
-    public String read() {
-        return null;
-    }
-
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void print() {
-        System.out.println(getText());
+    public String toString() {
+        return "GeneralInformation{" +
+                "text='" + text + '\'' +
+                '}';
     }
 }
