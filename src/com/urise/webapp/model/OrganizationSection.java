@@ -1,32 +1,46 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ExperienceInformation implements ResumeSection {
+public class OrganizationSection extends Section {
 
-    private List<Experiense> experienceList = new ArrayList<>();
+    private final List<Organization> organizations;
 
-    public List<Experiense> getExperienceList() {
-        return experienceList;
+    public OrganizationSection(List<Organization> organizations) {
+        Objects.requireNonNull(organizations, "organizations must not be null");
+        this.organizations = organizations;
     }
 
-    public void setExperienceList(List<Experiense> experienceList) {
-        this.experienceList = experienceList;
+    public List<Organization> getExperienceList() {
+        return organizations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrganizationSection that = (OrganizationSection) o;
+        return organizations.equals(that.organizations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(organizations);
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Experiense experiense : experienceList) {
-            stringBuilder.append(experiense.getTitle()).append("\n");
-            if (experiense.getPosition() != null) {
-                stringBuilder.append(experiense.getPosition()).append("\n");
+        for (Organization organization : organizations) {
+            stringBuilder.append(organization.getHomePage()).append("\n");
+            if (organization.getTitle() != null) {
+                stringBuilder.append(organization.getTitle()).append("\n");
             }
-            stringBuilder.append(experiense.getStartDate()).append("\n");
-            stringBuilder.append(experiense.getEndDate()).append("\n");
-            stringBuilder.append(experiense.getText()).append("\n");
+            stringBuilder.append(organization.getStartDate()).append("\n");
+            stringBuilder.append(organization.getEndDate()).append("\n");
+            stringBuilder.append(organization.getDescription()).append("\n");
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
