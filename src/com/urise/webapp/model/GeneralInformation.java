@@ -16,8 +16,6 @@ public class GeneralInformation implements ResumeSection {
 
     @Override
     public String toString() {
-        return "GeneralInformation{" +
-                "text='" + text + '\'' +
-                '}';
+        return text;
     }
 }
