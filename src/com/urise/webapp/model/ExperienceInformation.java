@@ -20,13 +20,13 @@ public class ExperienceInformation implements ResumeSection {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Experiense experiense : experienceList) {
-            stringBuilder.append(experiense.getTitle());
+            stringBuilder.append(experiense.getTitle()).append("\n");
             if (experiense.getPosition() != null) {
-                stringBuilder.append(experiense.getPosition());
+                stringBuilder.append(experiense.getPosition()).append("\n");
             }
-            stringBuilder.append(experiense.getStartDate());
-            stringBuilder.append(experiense.getEndDate());
-            stringBuilder.append(experiense.getText());
+            stringBuilder.append(experiense.getStartDate()).append("\n");
+            stringBuilder.append(experiense.getEndDate()).append("\n");
+            stringBuilder.append(experiense.getText()).append("\n");
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
