@@ -35,13 +35,15 @@ public class OrganizationSection extends Section {
         StringBuilder stringBuilder = new StringBuilder();
         for (Organization organization : organizations) {
             stringBuilder.append(organization.getHomePage()).append("\n");
-            if (organization.getTitle() != null) {
-                stringBuilder.append(organization.getTitle()).append("\n");
-            }
-            stringBuilder.append(organization.getStartDate()).append("\n");
-            stringBuilder.append(organization.getEndDate()).append("\n");
-            stringBuilder.append(organization.getDescription()).append("\n");
-            stringBuilder.append("\n");
+            for (Position position : organization.getPositions()) {
+                if (position.getTitle() != null) {
+                    stringBuilder.append(position.getTitle()).append("\n");
+                }
+                stringBuilder.append(position.getStartDate()).append("\n");
+                stringBuilder.append(position.getEndDate()).append("\n");
+                stringBuilder.append(position.getDescription()).append("\n");
+                stringBuilder.append("\n");
+            };
         }
         return stringBuilder.toString();
     }
