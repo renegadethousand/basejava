@@ -22,7 +22,7 @@ public class OrganizationSection extends Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrganizationSection that = (OrganizationSection) o;
-        return organizations.equals(that.organizations);
+        return Objects.equals(organizations, that.organizations);
     }
 
     @Override
@@ -48,52 +48,4 @@ public class OrganizationSection extends Section {
         return stringBuilder.toString();
     }
 
-    public class Experiense {
-
-        String title;
-        String position;
-        LocalDate startDate;
-        LocalDate endDate;
-        String text;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getPosition() {
-            return position;
-        }
-
-        public void setPosition(String position) {
-            this.position = position;
-        }
-
-        public LocalDate getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(LocalDate startDate) {
-            this.startDate = startDate;
-        }
-
-        public LocalDate getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(LocalDate endDate) {
-            this.endDate = endDate;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-    }
 }

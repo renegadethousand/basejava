@@ -14,11 +14,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ResumeTestData {
 
-    public static void main(String[] args) {
-        Resume resume = new Resume("Ivan ivanov");
+    public static Resume generateResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
 
         TextSection objective = new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и" +
                 " Enterprise технологиям");
@@ -48,7 +49,7 @@ public class ResumeTestData {
                 " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
         ListSection achievement = new ListSection(achievements);
         resume.getResumeInfo().put(SectionType.ACHIEVEMENT, personal);
-        
+
         List<String> qualifications = new ArrayList<>();
         qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
         qualifications.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
@@ -171,7 +172,7 @@ public class ResumeTestData {
                         LocalDate.of(2013,5,1),
                         "\t\"Functional Programming Principles in Scala\" by Martin Odersky",
                         null))
-                );
+        );
         educations.add(education_1);
 
         Organization education_2 = new Organization("Luxoft",
@@ -180,7 +181,7 @@ public class ResumeTestData {
                         LocalDate.of(2011,4,1),
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                         null))
-                );
+        );
         educations.add(education_2);
 
         Organization education_3 = new Organization("Siemens AG",
@@ -189,7 +190,7 @@ public class ResumeTestData {
                         LocalDate.of(2005,4,1),
                         "3 месяца обучения мобильным IN сетям (Берлин)",
                         null))
-                );
+        );
         educations.add(education_3);
 
         Organization education_4 = new Organization("Alcatel",
@@ -198,21 +199,21 @@ public class ResumeTestData {
                         LocalDate.of(1998,3,1),
                         "6 месяцев обучения цифровым телефонным сетям (Москва)",
                         null))
-                );
+        );
         educations.add(education_4);
 
         Organization education_5 = new Organization("Санкт-Петербургский национальный исследовательский" +
                 " университет информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/",
                 List.of(new Position(LocalDate.of(1993,9,1),
-                        LocalDate.of(1996,7,1),
-                        "Аспирантура (программист С, С++)",
-                        null),
+                                LocalDate.of(1996,7,1),
+                                "Аспирантура (программист С, С++)",
+                                null),
                         new Position(LocalDate.of(1987,9,1),
                                 LocalDate.of(1993,7,1),
                                 "Инженер (программист Fortran, C)",
                                 null))
-                );
+        );
         educations.add(education_5);
 
         OrganizationSection educationInformation = new OrganizationSection(educations);
@@ -223,7 +224,7 @@ public class ResumeTestData {
                         LocalDate.of(1987,6,1),
                         "Закончил с отличием",
                         null))
-               );
+        );
         educations.add(education_7);
 
         resume.getResumeInfo().put(SectionType.EDUCATION, educationInformation);
@@ -235,6 +236,12 @@ public class ResumeTestData {
         resume.getContacts().put(ContactType.GITHUB, "https://github.com/gkislin");
         resume.getContacts().put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
         resume.getContacts().put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+
+        return resume;
+    }
+
+    public static void main(String[] args) {
+        Resume resume = generateResume(UUID.randomUUID().toString(), "Ivan ivanov");
 
         for (Map.Entry<SectionType, Section> resumeSection : resume.getResumeInfo().entrySet()) {
             System.out.println(resumeSection.getKey().getTitle());

@@ -50,26 +50,28 @@ public class Resume implements Comparable<Resume> {
     public Section getSection(SectionType sectionType) {
         return resumeInfo.get(sectionType);
     }
-    @Override
-    public String toString() {
-        return "Resume{" +
-                "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName)
-                && Objects.equals(resumeInfo, resume.resumeInfo) && Objects.equals(contacts, resume.contacts);
+        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName) && Objects.equals(resumeInfo, resume.resumeInfo) && Objects.equals(contacts, resume.contacts);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(uuid, fullName, resumeInfo, contacts);
+    }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", resumeInfo=" + resumeInfo +
+                ", contacts=" + contacts +
+                '}';
     }
 
     @Override
