@@ -29,28 +29,28 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void save(Resume resume) {
-        LOG.info("Save " + resume);
+//        LOG.info("Save " + resume);
         SK searchKey = getNotExistSearchKey(resume.getUuid());
         doSave(searchKey, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        LOG.info("Get " + uuid);
+//        LOG.info("Get " + uuid);
         SK searchKey = getExistSearchKey(uuid);
         return doGet(searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        LOG.info("Delete " + uuid);
+//        LOG.info("Delete " + uuid);
         SK searchKey = getExistSearchKey(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public void update(Resume resume) {
-        LOG.info("Update " + resume);
+//        LOG.info("Update " + resume);
         SK searchKey = getExistSearchKey(resume.getUuid());
         doUpdate(searchKey, resume);
     }

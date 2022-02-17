@@ -5,6 +5,7 @@ import com.urise.webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,11 +18,13 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
         }
-        if (!directory.canRead() || directory.canWrite()) {
+        if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
     }
+
+    protected abstract void doWrite(Resume resume, File file) throws IOException;
 
     @Override
     protected File getSearchKey(String uuid) {
@@ -43,35 +46,45 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
-
     @Override
-    protected void doDelete(File searchKey) {
-
+    protected void doDelete(File file) {
+        file.delete();
     }
 
     @Override
-    protected Resume doGet(File searchKey) {
-        return null;
+    protected Resume doGet(File file) {
+        return doRead(file);
     }
 
-    @Override
-    protected void doUpdate(File searchKey, Resume resume) {
+    protected abstract Resume doRead(File file);
 
+    @Override
+    protected void doUpdate(File file, Resume resume) {
+        try {
+            doWrite(resume, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected List<Resume> getAll() {
-        return null;
+        List<Resume> resumeList = new ArrayList<>();
+        for (File file : directory.listFiles()) {
+            resumeList.add(doRead(file));
+        }
+        return resumeList;
     }
 
     @Override
     public void clear() {
-
+        for (File file : directory.listFiles()) {
+            doDelete(file);
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        return directory.listFiles().length;
     }
 }
