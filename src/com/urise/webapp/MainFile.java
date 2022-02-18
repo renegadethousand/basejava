@@ -1,6 +1,7 @@
 package com.urise.webapp;
 
 import java.io.File;
+import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) {
@@ -28,11 +29,11 @@ public class MainFile {
     }
 
     public static void iterateDir(String filePath) {
-        File file = new File(filePath);
-        System.out.println(file.getName());
-        if (file.isDirectory()) {
-            for (File iter : file.listFiles()) {
-                iterateDir(iter.getAbsolutePath());
+        File iterateFile = new File(filePath);
+        System.out.println(iterateFile.getName());
+        if (iterateFile.isDirectory()) {
+            for (File file : Objects.requireNonNull(iterateFile.listFiles())) {
+                iterateDir(file.getAbsolutePath());
             }
         }
     }
