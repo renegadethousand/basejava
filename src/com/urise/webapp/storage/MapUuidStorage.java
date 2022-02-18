@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class MapUuidStorage extends AbstractStorage<String> {
 
-    protected Map<String, Resume> storage = new HashMap<>();
+    private Map<String, Resume> storage = new HashMap<>();
 
     @Override
     public List<Resume> getAll() {
