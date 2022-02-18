@@ -1,14 +1,14 @@
 package com.urise.webapp;
 
-import com.urise.webapp.model.ListSection;
 import com.urise.webapp.model.ContactType;
+import com.urise.webapp.model.ListSection;
 import com.urise.webapp.model.Organization;
 import com.urise.webapp.model.OrganizationSection;
 import com.urise.webapp.model.Position;
-import com.urise.webapp.model.TextSection;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.model.Section;
 import com.urise.webapp.model.SectionType;
+import com.urise.webapp.model.TextSection;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -79,8 +79,8 @@ public class ResumeTestData {
         List<Organization> organizations = new ArrayList<>();
         Organization experience_1 = new Organization("Java Online Projects",
                 "http://javaops.ru/",
-                List.of(new Position(LocalDate.of(2013,10,1),
-                        LocalDate.of(1,1,1),
+                List.of(new Position(LocalDate.of(2013, 10, 1),
+                        LocalDate.of(1, 1, 1),
                         "Автор проекта.",
                         "Создание, организация и проведение Java онлайн проектов и стажировок."))
         );
@@ -88,8 +88,8 @@ public class ResumeTestData {
 
         Organization experience_2 = new Organization("Wrike",
                 "https://www.wrike.com/",
-                List.of(new Position(LocalDate.of(2014,10,1),
-                        LocalDate.of(2016,1,1),
+                List.of(new Position(LocalDate.of(2014, 10, 1),
+                        LocalDate.of(2016, 1, 1),
                         "Старший разработчик (backend)",
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, \" +\n" +
                                 "Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация,\" +\n" +
@@ -98,8 +98,8 @@ public class ResumeTestData {
 
         Organization experience_3 = new Organization("RIT Center",
                 null,
-                List.of(new Position(LocalDate.of(2012,2,1),
-                        LocalDate.of(2014,1,1),
+                List.of(new Position(LocalDate.of(2012, 2, 1),
+                        LocalDate.of(2014, 1, 1),
                         "Java архитектор",
                         "Организация процесса разработки системы ERP для разных окружений: релизная политика," +
                                 " версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway)," +
@@ -115,8 +115,8 @@ public class ResumeTestData {
 
         Organization experience_4 = new Organization("Luxoft (Deutsche Bank)",
                 "http://www.luxoft.ru/",
-                List.of(new Position(LocalDate.of(2010,12,1),
-                        LocalDate.of(2012,4,1),
+                List.of(new Position(LocalDate.of(2010, 12, 1),
+                        LocalDate.of(2012, 4, 1),
                         "Ведущий программист",
                         "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT," +
                                 " GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения" +
@@ -126,8 +126,8 @@ public class ResumeTestData {
 
         Organization experience_5 = new Organization("Yota",
                 "https://www.yota.ru/",
-                List.of(new Position(LocalDate.of(2008,6,1),
-                        LocalDate.of(2010,12,1),
+                List.of(new Position(LocalDate.of(2008, 6, 1),
+                        LocalDate.of(2010, 12, 1),
                         "Ведущий специалист",
                         "Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\"" +
                                 " (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2)." +
@@ -137,8 +137,8 @@ public class ResumeTestData {
 
         Organization experience_6 = new Organization("Enkata",
                 "http://enkata.com/",
-                List.of(new Position(LocalDate.of(2007,3,1),
-                        LocalDate.of(2008,6,1),
+                List.of(new Position(LocalDate.of(2007, 3, 1),
+                        LocalDate.of(2008, 6, 1),
                         "Разработчик ПО",
                         "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS)" +
                                 " частей кластерного J2EE приложения (OLAP, Data mining).")));
@@ -146,8 +146,8 @@ public class ResumeTestData {
 
         Organization experience_7 = new Organization("Siemens AG",
                 "https://www.siemens.com/ru/ru/home.html",
-                List.of(new Position(LocalDate.of(2005,1,1),
-                        LocalDate.of(2007,2,1),
+                List.of(new Position(LocalDate.of(2005, 1, 1),
+                        LocalDate.of(2007, 2, 1),
                         "Разработчик ПО",
                         "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО" +
                                 " на мобильной IN платформе Siemens @vantage (Java, Unix).")));
@@ -155,8 +155,8 @@ public class ResumeTestData {
 
         Organization experience_8 = new Organization("Alcatel",
                 "http://www.alcatel.ru/",
-                List.of(new Position(LocalDate.of(1997,9,1),
-                        LocalDate.of(2005,1,1),
+                List.of(new Position(LocalDate.of(1997, 9, 1),
+                        LocalDate.of(2005, 1, 1),
                         "Ведущий программист",
                         "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12" +
                                 " (CHILL, ASM).")));
@@ -168,8 +168,8 @@ public class ResumeTestData {
 
         Organization education_1 = new Organization("Coursera",
                 "https://www.coursera.org/course/progfun",
-                List.of(new Position(LocalDate.of(2013,3,1),
-                        LocalDate.of(2013,5,1),
+                List.of(new Position(LocalDate.of(2013, 3, 1),
+                        LocalDate.of(2013, 5, 1),
                         "\t\"Functional Programming Principles in Scala\" by Martin Odersky",
                         null))
         );
@@ -177,8 +177,8 @@ public class ResumeTestData {
 
         Organization education_2 = new Organization("Luxoft",
                 "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                List.of(new Position(LocalDate.of(2011,3,1),
-                        LocalDate.of(2011,4,1),
+                List.of(new Position(LocalDate.of(2011, 3, 1),
+                        LocalDate.of(2011, 4, 1),
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                         null))
         );
@@ -186,8 +186,8 @@ public class ResumeTestData {
 
         Organization education_3 = new Organization("Siemens AG",
                 "http://www.siemens.ru/",
-                List.of(new Position(LocalDate.of(2005,1,1),
-                        LocalDate.of(2005,4,1),
+                List.of(new Position(LocalDate.of(2005, 1, 1),
+                        LocalDate.of(2005, 4, 1),
                         "3 месяца обучения мобильным IN сетям (Берлин)",
                         null))
         );
@@ -195,8 +195,8 @@ public class ResumeTestData {
 
         Organization education_4 = new Organization("Alcatel",
                 "http://www.alcatel.ru/",
-                List.of(new Position(LocalDate.of(1997,9,1),
-                        LocalDate.of(1998,3,1),
+                List.of(new Position(LocalDate.of(1997, 9, 1),
+                        LocalDate.of(1998, 3, 1),
                         "6 месяцев обучения цифровым телефонным сетям (Москва)",
                         null))
         );
@@ -205,12 +205,12 @@ public class ResumeTestData {
         Organization education_5 = new Organization("Санкт-Петербургский национальный исследовательский" +
                 " университет информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/",
-                List.of(new Position(LocalDate.of(1993,9,1),
-                                LocalDate.of(1996,7,1),
+                List.of(new Position(LocalDate.of(1993, 9, 1),
+                                LocalDate.of(1996, 7, 1),
                                 "Аспирантура (программист С, С++)",
                                 null),
-                        new Position(LocalDate.of(1987,9,1),
-                                LocalDate.of(1993,7,1),
+                        new Position(LocalDate.of(1987, 9, 1),
+                                LocalDate.of(1993, 7, 1),
                                 "Инженер (программист Fortran, C)",
                                 null))
         );
@@ -220,8 +220,8 @@ public class ResumeTestData {
 
         Organization education_7 = new Organization("Заочная физико-техническая школа при МФТИ",
                 "http://www.school.mipt.ru/",
-                List.of(new Position( LocalDate.of(1984,9,1),
-                        LocalDate.of(1987,6,1),
+                List.of(new Position(LocalDate.of(1984, 9, 1),
+                        LocalDate.of(1987, 6, 1),
                         "Закончил с отличием",
                         null))
         );

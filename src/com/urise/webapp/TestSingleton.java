@@ -4,7 +4,7 @@ import com.urise.webapp.model.SectionType;
 
 public class TestSingleton {
 
-    private  static TestSingleton instance;
+    private static TestSingleton instance;
 
     public static TestSingleton getInstance() {
         if (instance == null) {
@@ -20,7 +20,7 @@ public class TestSingleton {
         TestSingleton.getInstance().toString();
         Singleton instance = Singleton.valueOf("INSTANCE");
         System.out.println(instance);
-        for (SectionType type: SectionType.values()) {
+        for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
         }
     }

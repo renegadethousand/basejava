@@ -1,7 +1,6 @@
 package com.urise.webapp.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,7 +43,8 @@ public class OrganizationSection extends Section implements Serializable {
                 stringBuilder.append(position.getEndDate()).append("\n");
                 stringBuilder.append(position.getDescription()).append("\n");
                 stringBuilder.append("\n");
-            };
+            }
+            ;
         }
         return stringBuilder.toString();
     }
