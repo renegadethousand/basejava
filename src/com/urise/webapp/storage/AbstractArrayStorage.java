@@ -13,9 +13,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    protected abstract void saveElement(Integer searchKey, Resume resume);
+    protected abstract void saveResumeToStorage(int searchKey, Resume resume);
 
-    protected abstract void deleteElement(int searchKey);
+    protected abstract void deleteResumeFromStorage(int searchKey);
 
     @Override
     public int size() {
@@ -31,13 +31,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     @Override
     protected void doSave(Integer searchKey, Resume resume) {
         checkArraySize();
-        saveElement(searchKey, resume);
+        saveResumeToStorage(searchKey, resume);
         size++;
+    }
+
+    private void checkArraySize() {
+        if (size == STORAGE_LIMIT) {
+            throw new StorageException("Закончилось место в массиве!", "");
+        }
     }
 
     @Override
     protected void doDelete(Integer searchKey) {
-        deleteElement(searchKey);
+        deleteResumeFromStorage(searchKey);
         storage[size - 1] = null;
         size--;
     }
@@ -45,12 +51,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     @Override
     public List<Resume> getAll() {
         return Arrays.asList(Arrays.copyOf(storage, size));
-    }
-
-    protected void checkArraySize() {
-        if (size == STORAGE_LIMIT) {
-            throw new StorageException("Закончилось место в массиве!", "");
-        }
     }
 
     @Override

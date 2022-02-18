@@ -13,8 +13,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveElement(Integer searchKey, Resume resume) {
-        int index = (Integer) searchKey;
+    protected void saveResumeToStorage(int index, Resume resume) {
         int insertionIndex = -index - 1;
         if (size > 0) {
             System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size - insertionIndex);
@@ -23,7 +22,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void deleteElement(int index) {
+    protected void deleteResumeFromStorage(int index) {
         if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
     }
 
