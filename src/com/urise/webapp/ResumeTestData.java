@@ -23,11 +23,11 @@ public class ResumeTestData {
 
         TextSection objective = new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и" +
                 " Enterprise технологиям");
-        resume.getResumeInfo().put(SectionType.OBJECTIVE, objective);
+        resume.getSections().put(SectionType.OBJECTIVE, objective);
 
         TextSection personal = new TextSection("Аналитический склад ума, сильная логика, креативность," +
                 " инициативность. Пурист кода и архитектуры.");
-        resume.getResumeInfo().put(SectionType.PERSONAL, personal);
+        resume.getSections().put(SectionType.PERSONAL, personal);
 
         List<String> achievements = new ArrayList<>();
         achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"" +
@@ -48,7 +48,7 @@ public class ResumeTestData {
         achievements.add("Реализация протоколов по приему платежей всех основных платежных системы России" +
                 " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
         BulletedListSection achievement = new BulletedListSection(achievements);
-        resume.getResumeInfo().put(SectionType.ACHIEVEMENT, personal);
+        resume.getSections().put(SectionType.ACHIEVEMENT, personal);
 
         List<String> qualifications = new ArrayList<>();
         qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
@@ -74,7 +74,7 @@ public class ResumeTestData {
                 " архитектурных шаблонов, UML, функционального программирования");
         qualifications.add("Родной русский, английский \"upper intermediate\"");
         BulletedListSection qualification = new BulletedListSection(qualifications);
-        resume.getResumeInfo().put(SectionType.QUALIFICATIONS, qualification);
+        resume.getSections().put(SectionType.QUALIFICATIONS, qualification);
 
         List<Organization> organizations = new ArrayList<>();
         Organization experience_1 = new Organization("Java Online Projects",
@@ -162,7 +162,7 @@ public class ResumeTestData {
                                 " (CHILL, ASM).")));
         organizations.add(experience_8);
 
-        resume.getResumeInfo().put(SectionType.EXPERIENCE, new OrganizationSection(organizations));
+        resume.getSections().put(SectionType.EXPERIENCE, new OrganizationSection(organizations));
 
         List<Organization> educations = new ArrayList<>();
 
@@ -227,7 +227,7 @@ public class ResumeTestData {
         );
         educations.add(education_7);
 
-        resume.getResumeInfo().put(SectionType.EDUCATION, educationInformation);
+        resume.getSections().put(SectionType.EDUCATION, educationInformation);
 
         resume.getContacts().put(ContactType.TELEPHONE, "+7(921) 855-0482");
         resume.getContacts().put(ContactType.SKYPE, "grigory.kislin");
@@ -243,7 +243,7 @@ public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume = generateResume(UUID.randomUUID().toString(), "Ivan ivanov");
 
-        for (Map.Entry<SectionType, AbstractSection> resumeSection : resume.getResumeInfo().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> resumeSection : resume.getSections().entrySet()) {
             System.out.println(resumeSection.getKey().getTitle());
             System.out.println(resumeSection.getValue().toString());
             System.out.println();

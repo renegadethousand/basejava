@@ -14,7 +14,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     // Unique identifier
     private final String uuid;
     private final String fullName;
-    private final Map<SectionType, AbstractSection> resumeInfo = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
     public Resume(String fullName) {
@@ -36,8 +36,8 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
-    public Map<SectionType, AbstractSection> getResumeInfo() {
-        return resumeInfo;
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
     }
 
     public Map<ContactType, String> getContacts() {
@@ -49,7 +49,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public AbstractSection getSection(SectionType sectionType) {
-        return resumeInfo.get(sectionType);
+        return sections.get(sectionType);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class Resume implements Comparable<Resume>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName) && Objects.equals(resumeInfo, resume.resumeInfo) && Objects.equals(contacts, resume.contacts);
+        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName) && Objects.equals(sections, resume.sections) && Objects.equals(contacts, resume.contacts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName, resumeInfo, contacts);
+        return Objects.hash(uuid, fullName, sections, contacts);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return "Resume{" +
                 "uuid='" + uuid + '\'' +
                 ", fullName='" + fullName + '\'' +
-                ", resumeInfo=" + resumeInfo +
+                ", resumeInfo=" + sections +
                 ", contacts=" + contacts +
                 '}';
     }
