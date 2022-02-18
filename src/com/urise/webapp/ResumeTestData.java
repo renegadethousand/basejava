@@ -1,12 +1,12 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.ListSection;
+import com.urise.webapp.model.BulletedListSection;
 import com.urise.webapp.model.Organization;
 import com.urise.webapp.model.OrganizationSection;
 import com.urise.webapp.model.Position;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.model.Section;
+import com.urise.webapp.model.AbstractSection;
 import com.urise.webapp.model.SectionType;
 import com.urise.webapp.model.TextSection;
 
@@ -47,7 +47,7 @@ public class ResumeTestData {
                 " и мониторинга системы по JMX (Jython/ Django).");
         achievements.add("Реализация протоколов по приему платежей всех основных платежных системы России" +
                 " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        ListSection achievement = new ListSection(achievements);
+        BulletedListSection achievement = new BulletedListSection(achievements);
         resume.getResumeInfo().put(SectionType.ACHIEVEMENT, personal);
 
         List<String> qualifications = new ArrayList<>();
@@ -73,7 +73,7 @@ public class ResumeTestData {
         qualifications.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования," +
                 " архитектурных шаблонов, UML, функционального программирования");
         qualifications.add("Родной русский, английский \"upper intermediate\"");
-        ListSection qualification = new ListSection(qualifications);
+        BulletedListSection qualification = new BulletedListSection(qualifications);
         resume.getResumeInfo().put(SectionType.QUALIFICATIONS, qualification);
 
         List<Organization> organizations = new ArrayList<>();
@@ -243,7 +243,7 @@ public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume = generateResume(UUID.randomUUID().toString(), "Ivan ivanov");
 
-        for (Map.Entry<SectionType, Section> resumeSection : resume.getResumeInfo().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> resumeSection : resume.getResumeInfo().entrySet()) {
             System.out.println(resumeSection.getKey().getTitle());
             System.out.println(resumeSection.getValue().toString());
             System.out.println();

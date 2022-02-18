@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationSection extends Section implements Serializable {
+public class OrganizationSection extends AbstractSection implements Serializable {
 
     private final List<Organization> organizations;
 
