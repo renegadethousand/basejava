@@ -1,12 +1,17 @@
 package com.urise.webapp.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationSection extends AbstractSection implements Serializable {
+public class OrganizationSection extends Section implements Serializable {
 
     private final List<Organization> organizations;
+
+    public OrganizationSection(Organization...organizations) {
+        this(Arrays.asList(organizations));
+    }
 
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, "organizations must not be null");
@@ -35,7 +40,7 @@ public class OrganizationSection extends AbstractSection implements Serializable
         StringBuilder stringBuilder = new StringBuilder();
         for (Organization organization : organizations) {
             stringBuilder.append(organization.getHomePage()).append("\n");
-            for (Position position : organization.getPositions()) {
+            for (Organization.Position position : organization.getPositions()) {
                 if (position.getTitle() != null) {
                     stringBuilder.append(position.getTitle()).append("\n");
                 }

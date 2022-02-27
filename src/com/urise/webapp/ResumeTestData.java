@@ -1,12 +1,11 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.BulletedListSection;
+import com.urise.webapp.model.ListSection;
 import com.urise.webapp.model.Organization;
 import com.urise.webapp.model.OrganizationSection;
-import com.urise.webapp.model.Position;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.model.AbstractSection;
+import com.urise.webapp.model.Section;
 import com.urise.webapp.model.SectionType;
 import com.urise.webapp.model.TextSection;
 
@@ -47,7 +46,7 @@ public class ResumeTestData {
                 " и мониторинга системы по JMX (Jython/ Django).");
         achievements.add("Реализация протоколов по приему платежей всех основных платежных системы России" +
                 " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        BulletedListSection achievement = new BulletedListSection(achievements);
+        ListSection achievement = new ListSection(achievements);
         resume.getSections().put(SectionType.ACHIEVEMENT, personal);
 
         List<String> qualifications = new ArrayList<>();
@@ -73,32 +72,32 @@ public class ResumeTestData {
         qualifications.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования," +
                 " архитектурных шаблонов, UML, функционального программирования");
         qualifications.add("Родной русский, английский \"upper intermediate\"");
-        BulletedListSection qualification = new BulletedListSection(qualifications);
+        ListSection qualification = new ListSection(qualifications);
         resume.getSections().put(SectionType.QUALIFICATIONS, qualification);
 
         List<Organization> organizations = new ArrayList<>();
         Organization experience_1 = new Organization("Java Online Projects",
                 "http://javaops.ru/",
-                List.of(new Position(LocalDate.of(2013, 10, 1),
+               new Organization.Position(LocalDate.of(2013, 10, 1),
                         LocalDate.of(1, 1, 1),
                         "Автор проекта.",
-                        "Создание, организация и проведение Java онлайн проектов и стажировок."))
+                        "Создание, организация и проведение Java онлайн проектов и стажировок.")
         );
         organizations.add(experience_1);
 
         Organization experience_2 = new Organization("Wrike",
                 "https://www.wrike.com/",
-                List.of(new Position(LocalDate.of(2014, 10, 1),
+                new Organization.Position(LocalDate.of(2014, 10, 1),
                         LocalDate.of(2016, 1, 1),
                         "Старший разработчик (backend)",
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, \" +\n" +
                                 "Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация,\" +\n" +
-                                "авторизация по OAuth1, OAuth2, JWT SSO.")));
+                                "авторизация по OAuth1, OAuth2, JWT SSO."));
         organizations.add(experience_2);
 
         Organization experience_3 = new Organization("RIT Center",
                 null,
-                List.of(new Position(LocalDate.of(2012, 2, 1),
+                new Organization.Position(LocalDate.of(2012, 2, 1),
                         LocalDate.of(2014, 1, 1),
                         "Java архитектор",
                         "Организация процесса разработки системы ERP для разных окружений: релизная политика," +
@@ -110,56 +109,56 @@ public class ResumeTestData {
                                 " из браузера документов MS Office." +
                                 " Maven + plugin development, Ant, Apache Commons, Spring security," +
                                 " Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote" +
-                                " scripting via ssh tunnels, PL/Python")));
+                                " scripting via ssh tunnels, PL/Python"));
         organizations.add(experience_3);
 
         Organization experience_4 = new Organization("Luxoft (Deutsche Bank)",
                 "http://www.luxoft.ru/",
-                List.of(new Position(LocalDate.of(2010, 12, 1),
+                new Organization.Position(LocalDate.of(2010, 12, 1),
                         LocalDate.of(2012, 4, 1),
                         "Ведущий программист",
                         "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT," +
                                 " GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения" +
                                 " для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга." +
-                                " JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.")));
+                                " JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5."));
         organizations.add(experience_4);
 
         Organization experience_5 = new Organization("Yota",
                 "https://www.yota.ru/",
-                List.of(new Position(LocalDate.of(2008, 6, 1),
+                new Organization.Position(LocalDate.of(2008, 6, 1),
                         LocalDate.of(2010, 12, 1),
                         "Ведущий специалист",
                         "Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\"" +
                                 " (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2)." +
                                 " Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента" +
-                                " (Python/ Jython, Django, ExtJS)")));
+                                " (Python/ Jython, Django, ExtJS)"));
         organizations.add(experience_5);
 
         Organization experience_6 = new Organization("Enkata",
                 "http://enkata.com/",
-                List.of(new Position(LocalDate.of(2007, 3, 1),
+                new Organization.Position(LocalDate.of(2007, 3, 1),
                         LocalDate.of(2008, 6, 1),
                         "Разработчик ПО",
                         "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS)" +
-                                " частей кластерного J2EE приложения (OLAP, Data mining).")));
+                                " частей кластерного J2EE приложения (OLAP, Data mining)."));
         organizations.add(experience_6);
 
         Organization experience_7 = new Organization("Siemens AG",
                 "https://www.siemens.com/ru/ru/home.html",
-                List.of(new Position(LocalDate.of(2005, 1, 1),
+                new Organization.Position(LocalDate.of(2005, 1, 1),
                         LocalDate.of(2007, 2, 1),
                         "Разработчик ПО",
                         "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО" +
-                                " на мобильной IN платформе Siemens @vantage (Java, Unix).")));
+                                " на мобильной IN платформе Siemens @vantage (Java, Unix)."));
         organizations.add(experience_7);
 
         Organization experience_8 = new Organization("Alcatel",
                 "http://www.alcatel.ru/",
-                List.of(new Position(LocalDate.of(1997, 9, 1),
+                new Organization.Position(LocalDate.of(1997, 9, 1),
                         LocalDate.of(2005, 1, 1),
                         "Ведущий программист",
                         "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12" +
-                                " (CHILL, ASM).")));
+                                " (CHILL, ASM)."));
         organizations.add(experience_8);
 
         resume.getSections().put(SectionType.EXPERIENCE, new OrganizationSection(organizations));
@@ -168,51 +167,51 @@ public class ResumeTestData {
 
         Organization education_1 = new Organization("Coursera",
                 "https://www.coursera.org/course/progfun",
-                List.of(new Position(LocalDate.of(2013, 3, 1),
+                new Organization.Position(LocalDate.of(2013, 3, 1),
                         LocalDate.of(2013, 5, 1),
                         "\t\"Functional Programming Principles in Scala\" by Martin Odersky",
-                        null))
+                        null)
         );
         educations.add(education_1);
 
         Organization education_2 = new Organization("Luxoft",
                 "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                List.of(new Position(LocalDate.of(2011, 3, 1),
+                new Organization.Position(LocalDate.of(2011, 3, 1),
                         LocalDate.of(2011, 4, 1),
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                        null))
+                        null)
         );
         educations.add(education_2);
 
         Organization education_3 = new Organization("Siemens AG",
                 "http://www.siemens.ru/",
-                List.of(new Position(LocalDate.of(2005, 1, 1),
+                new Organization.Position(LocalDate.of(2005, 1, 1),
                         LocalDate.of(2005, 4, 1),
                         "3 месяца обучения мобильным IN сетям (Берлин)",
-                        null))
+                        null)
         );
         educations.add(education_3);
 
         Organization education_4 = new Organization("Alcatel",
                 "http://www.alcatel.ru/",
-                List.of(new Position(LocalDate.of(1997, 9, 1),
+                new Organization.Position(LocalDate.of(1997, 9, 1),
                         LocalDate.of(1998, 3, 1),
                         "6 месяцев обучения цифровым телефонным сетям (Москва)",
-                        null))
+                        null)
         );
         educations.add(education_4);
 
         Organization education_5 = new Organization("Санкт-Петербургский национальный исследовательский" +
                 " университет информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/",
-                List.of(new Position(LocalDate.of(1993, 9, 1),
+                new Organization.Position(LocalDate.of(1993, 9, 1),
                                 LocalDate.of(1996, 7, 1),
                                 "Аспирантура (программист С, С++)",
                                 null),
-                        new Position(LocalDate.of(1987, 9, 1),
+                        new Organization.Position(LocalDate.of(1987, 9, 1),
                                 LocalDate.of(1993, 7, 1),
                                 "Инженер (программист Fortran, C)",
-                                null))
+                                null)
         );
         educations.add(education_5);
 
@@ -220,18 +219,18 @@ public class ResumeTestData {
 
         Organization education_7 = new Organization("Заочная физико-техническая школа при МФТИ",
                 "http://www.school.mipt.ru/",
-                List.of(new Position(LocalDate.of(1984, 9, 1),
+                new Organization.Position(LocalDate.of(1984, 9, 1),
                         LocalDate.of(1987, 6, 1),
                         "Закончил с отличием",
-                        null))
+                        null)
         );
         educations.add(education_7);
 
         resume.getSections().put(SectionType.EDUCATION, educationInformation);
 
-        resume.getContacts().put(ContactType.TELEPHONE, "+7(921) 855-0482");
+        resume.getContacts().put(ContactType.PHONE, "+7(921) 855-0482");
         resume.getContacts().put(ContactType.SKYPE, "grigory.kislin");
-        resume.getContacts().put(ContactType.EMAIL, "gkislin@yandex.ru");
+        resume.getContacts().put(ContactType.MAIL, "gkislin@yandex.ru");
         resume.getContacts().put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
         resume.getContacts().put(ContactType.GITHUB, "https://github.com/gkislin");
         resume.getContacts().put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
@@ -243,7 +242,7 @@ public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume = generateResume(UUID.randomUUID().toString(), "Ivan ivanov");
 
-        for (Map.Entry<SectionType, AbstractSection> resumeSection : resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, Section> resumeSection : resume.getSections().entrySet()) {
             System.out.println(resumeSection.getKey().getTitle());
             System.out.println(resumeSection.getValue().toString());
             System.out.println();

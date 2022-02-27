@@ -1,39 +1,44 @@
 package com.urise.webapp.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class BulletedListSection extends AbstractSection implements Serializable {
+public class ListSection extends Section implements Serializable {
 
-    private final List<String> skills;
+    private final List<String> items;
 
-    public BulletedListSection(List<String> items) {
-        Objects.requireNonNull(items, "items must not be null");
-        this.skills = items;
+    public ListSection(String...items) {
+        this(Arrays.asList(items));
     }
 
-    public List<String> getSkills() {
-        return skills;
+    public ListSection(List<String> items) {
+        Objects.requireNonNull(items, "items must not be null");
+        this.items = items;
+    }
+
+    public List<String> getItems() {
+        return items;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BulletedListSection that = (BulletedListSection) o;
-        return skills.equals(that.skills);
+        ListSection that = (ListSection) o;
+        return items.equals(that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(skills);
+        return Objects.hash(items);
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String s : skills) {
+        for (String s : items) {
             stringBuilder.append(s);
         }
         return stringBuilder.toString();
