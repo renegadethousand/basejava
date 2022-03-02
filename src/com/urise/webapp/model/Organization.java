@@ -11,6 +11,8 @@ import java.util.Objects;
 
 public class Organization implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private final List<Position> positions;
 

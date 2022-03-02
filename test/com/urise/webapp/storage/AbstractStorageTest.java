@@ -13,6 +13,7 @@ import com.urise.webapp.model.TextSection;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.time.Month;
 import java.util.List;
 
@@ -20,6 +21,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("D:\\javaops\\basejava\\basejava\\storage");
+
+    protected Storage storage;
 
     protected static String EMPTY_NAME = "EMPTY";
 
@@ -35,6 +40,7 @@ public abstract class AbstractStorageTest {
     private static final Resume R3;
     private static final Resume R4;
     private static final Resume RESUME_EXAMPLE_NOT_EXIST;
+
 
     static {
         R1 = ResumeTestData.generateResume(UUID_1, EMPTY_NAME);
@@ -67,8 +73,6 @@ public abstract class AbstractStorageTest {
                         new Organization("Organization2", "http://Organization2.ru",
                                 new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
     }
-
-    protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -126,7 +130,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         storage.update(R3);
-        assertSame(R3, storage.get(UUID_3));
+        assertEquals(R3, storage.get(UUID_3));
     }
 
     @Test(expected = NotExistStorageException.class)
