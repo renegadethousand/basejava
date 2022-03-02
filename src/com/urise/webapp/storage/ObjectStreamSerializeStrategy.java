@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-public class ObjectStreamSerializationStrategy implements SerializationStrategy {
+public class ObjectStreamSerializeStrategy implements SerializeStrategy {
 
     @Override
     public void doWrite(Resume resume, OutputStream file) throws IOException {

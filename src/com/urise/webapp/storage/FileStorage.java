@@ -16,9 +16,9 @@ import java.util.Objects;
 public class FileStorage extends AbstractStorage<File> {
 
     private File directory;
-    private SerializationStrategy serializationStrategy;
+    private SerializeStrategy serializationStrategy;
 
-    protected FileStorage(File directory, SerializationStrategy serializationStrategy) {
+    protected FileStorage(File directory, SerializeStrategy serializationStrategy) {
         this.serializationStrategy = serializationStrategy;
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
