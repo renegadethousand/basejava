@@ -92,12 +92,10 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     private Stream<Path> getDirectoryFiles() {
-        Stream<Path> files;
         try {
-            files = Files.list(directory);
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Directory read error", null);
         }
-        return files;
     }
 }
