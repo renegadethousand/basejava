@@ -23,14 +23,16 @@ import java.util.Set;
 
 public class DataStreamSerializer implements StreamSerializer {
 
-    private Set<SectionType> textSectionSet = Set.of(SectionType.PERSONAL,
+    private final Set<SectionType> textSectionSet = Set.of(
+            SectionType.PERSONAL,
             SectionType.OBJECTIVE,
             SectionType.ACHIEVEMENT);
 
-    private Set<SectionType> listSectionSet = Set.of(SectionType.QUALIFICATIONS);
+    private final Set<SectionType> listSectionSet = Set.of(
+            SectionType.QUALIFICATIONS);
 
-
-    private Set<SectionType> experienceSectionSet = Set.of(SectionType.EXPERIENCE,
+    private final Set<SectionType> experienceSectionSet = Set.of(
+            SectionType.EXPERIENCE,
             SectionType.EDUCATION);
 
     @Override
