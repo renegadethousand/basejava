@@ -47,7 +47,7 @@ public class DataStreamSerializer implements StreamSerializer {
     private void writeContacts(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<ContactType, String> contacts = resume.getContacts();
         dataOutputStream.writeInt(contacts.size());
-        for (Map.Entry<ContactType, String> entry: contacts.entrySet()) {
+        for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
             dataOutputStream.writeUTF(entry.getKey().name());
             dataOutputStream.writeUTF(entry.getValue());
         }
@@ -56,15 +56,16 @@ public class DataStreamSerializer implements StreamSerializer {
     private void writeSections(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<SectionType, Section> sections = resume.getSections();
         dataOutputStream.writeInt(sections.size());
-        for (Map.Entry<SectionType, Section> entry: sections.entrySet()) {
-            dataOutputStream.writeUTF(entry.getKey().name());
-            if (entry.getKey() == SectionType.PERSONAL
-                    || entry.getKey() == SectionType.OBJECTIVE
-                    || entry.getKey() == SectionType.ACHIEVEMENT) {
+        for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+            SectionType sectionType = entry.getKey();
+            dataOutputStream.writeUTF(sectionType.name());
+            if (sectionType == SectionType.PERSONAL
+                    || sectionType == SectionType.OBJECTIVE
+                    || sectionType == SectionType.ACHIEVEMENT) {
                 writeTextSection(dataOutputStream, entry);
-            } else if (entry.getKey() == SectionType.QUALIFICATIONS) {
+            } else if (sectionType == SectionType.QUALIFICATIONS) {
                 writeQualificationsSection(dataOutputStream, entry);
-            } else if (entry.getKey() == SectionType.EXPERIENCE || entry.getKey() == SectionType.EDUCATION) {
+            } else if (sectionType == SectionType.EXPERIENCE || sectionType == SectionType.EDUCATION) {
                 writeExperienceSection(dataOutputStream, entry);
             }
         }
@@ -142,6 +143,19 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
+    private void readTextSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
+        resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
+    }
+
+    private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
+        int qualificationSize = dataInputStream.readInt();
+        List<String> list = new ArrayList<>();
+        for (int j = 0; j < qualificationSize; j++) {
+            list.add(dataInputStream.readUTF());
+        }
+        resume.addSection(sectionType, new ListSection(list));
+    }
+
     private void readExperienceSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
         int educationSize = dataInputStream.readInt();
         List<Organization> organizations = new ArrayList<>();
@@ -151,7 +165,11 @@ public class DataStreamSerializer implements StreamSerializer {
         resume.addSection(sectionType, new OrganizationSection(organizations));
     }
 
-    private  List<Organization.Position> readPositions(DataInputStream dataInputStream) throws IOException {
+    private Link readLink(DataInputStream dataInputStream) throws IOException {
+        return new Link(dataInputStream.readUTF(), dataInputStream.readUTF());
+    }
+
+    private List<Organization.Position> readPositions(DataInputStream dataInputStream) throws IOException {
         List<Organization.Position> positions = new ArrayList<>();
         int positionsSize = dataInputStream.readInt();
         for (int k = 0; k < positionsSize; k++) {
@@ -164,22 +182,5 @@ public class DataStreamSerializer implements StreamSerializer {
             positions.add(position);
         }
         return positions;
-    }
-
-    private Link readLink(DataInputStream dataInputStream) throws IOException {
-        return new Link(dataInputStream.readUTF(), dataInputStream.readUTF());
-    }
-
-    private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        int qualificationSize = dataInputStream.readInt();
-        List<String> list = new ArrayList<>();
-        for (int j = 0; j < qualificationSize; j++) {
-            list.add(dataInputStream.readUTF());
-        }
-        resume.addSection(sectionType, new ListSection(list));
-    }
-
-    private void readTextSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
     }
 }
