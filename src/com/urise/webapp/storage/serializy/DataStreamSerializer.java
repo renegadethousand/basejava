@@ -35,9 +35,7 @@ public class DataStreamSerializer implements StreamSerializer {
     @Override
     public Resume doRead(InputStream inputStream) throws IOException {
         try (DataInputStream dataInputStream = new DataInputStream(inputStream)) {
-            String uuid = dataInputStream.readUTF();
-            String fullName = dataInputStream.readUTF();
-            Resume resume = new Resume(uuid, fullName);
+            Resume resume = new Resume(dataInputStream.readUTF(), dataInputStream.readUTF());
             readContacts(dataInputStream, resume);
             readSections(dataInputStream, resume);
             return resume;
