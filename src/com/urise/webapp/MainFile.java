@@ -27,24 +27,19 @@ public class MainFile {
             throw new RuntimeException(e);
         }
 
-        printDirectoryDeeply(dir, 0);
+        printDirectoryDeeply(dir, "");
     }
 
-    public static void printDirectoryDeeply(File dir, int count) {
+    public static void printDirectoryDeeply(File dir, String offset) {
         File[] files = dir.listFiles();
-        count++;
-        StringBuilder prefix = new StringBuilder();
-        for (int i = 0; i < count; i++) {
-            prefix.append(" ");
-        }
 
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println(prefix.toString() + "File: " + file.getName());
+                    System.out.println(offset + "File: " + file.getName());
                 } else if (file.isDirectory()) {
-                    System.out.println(prefix.toString() + "Directory: " + file.getName());
-                    printDirectoryDeeply(file, count);
+                    System.out.println(offset + "Directory: " + file.getName());
+                    printDirectoryDeeply(file, offset + " ");
                 }
             }
         }
