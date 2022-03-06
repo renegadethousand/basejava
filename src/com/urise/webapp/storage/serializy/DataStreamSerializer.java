@@ -44,70 +44,6 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private void readContacts(DataInputStream dataInputStream, Resume resume) throws IOException {
-        int size = dataInputStream.readInt();
-        for (int i = 0; i < size; i++) {
-            resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
-        }
-    }
-
-    private void readSections(DataInputStream dataInputStream, Resume resume) throws IOException {
-        int size = dataInputStream.readInt();
-        for (int i = 0; i < size; i++) {
-            SectionType sectionType = SectionType.valueOf(dataInputStream.readUTF());
-            if (sectionType == SectionType.PERSONAL
-                    || sectionType == SectionType.OBJECTIVE
-                    || sectionType == SectionType.ACHIEVEMENT) {
-                readTextSection(dataInputStream, resume, sectionType);
-            } else if (sectionType == SectionType.QUALIFICATIONS) {
-                readQualificationsSection(dataInputStream, resume, sectionType);
-            } else if (sectionType == SectionType.EXPERIENCE || sectionType == SectionType.EDUCATION) {
-                readExperienceSection(dataInputStream, resume, sectionType);
-            }
-        }
-    }
-
-    private void readExperienceSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        int educationSize = dataInputStream.readInt();
-        List<Organization> organizations = new ArrayList<>();
-        for (int j = 0; j < educationSize; j++) {
-            organizations.add(new Organization(readLink(dataInputStream), readPositons(dataInputStream)));
-        }
-        resume.addSection(sectionType, new OrganizationSection(organizations));
-    }
-
-    private  List<Organization.Position> readPositons(DataInputStream dataInputStream) throws IOException {
-        List<Organization.Position> positions = new ArrayList<>();
-        int positionsSize = dataInputStream.readInt();
-        for (int k = 0; k < positionsSize; k++) {
-            Organization.Position position = new Organization.Position(
-                    LocalDate.parse(dataInputStream.readUTF()),
-                    LocalDate.parse(dataInputStream.readUTF()),
-                    dataInputStream.readUTF(),
-                    dataInputStream.readUTF()
-            );
-            positions.add(position);
-        }
-        return positions;
-    }
-
-    private Link readLink(DataInputStream dataInputStream) throws IOException {
-        return new Link(dataInputStream.readUTF(), dataInputStream.readUTF());
-    }
-
-    private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        int qualificationSize = dataInputStream.readInt();
-        List<String> list = new ArrayList<>();
-        for (int j = 0; j < qualificationSize; j++) {
-            list.add(dataInputStream.readUTF());
-        }
-        resume.addSection(sectionType, new ListSection(list));
-    }
-
-    private void readTextSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
-    }
-
     private void writeContacts(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<ContactType, String> contacts = resume.getContacts();
         dataOutputStream.writeInt(contacts.size());
@@ -150,31 +86,29 @@ public class DataStreamSerializer implements StreamSerializer {
         List<Organization> experienceList = ((OrganizationSection) entry.getValue()).getExperienceList();
         dataOutputStream.writeInt(experienceList.size());
         for (int i = 0; i < experienceList.size(); i++) {
-            writeExperience(dataOutputStream, experienceList, i);
+            writeExperience(dataOutputStream, experienceList.get(i));
         }
     }
 
-    private void writeExperience(DataOutputStream dataOutputStream, List<Organization> experienceList, int i) throws IOException {
-        writeLink(dataOutputStream, experienceList, i);
-        List<Organization.Position> positions = experienceList.get(i).getPositions();
+    private void writeExperience(DataOutputStream dataOutputStream, Organization organization) throws IOException {
+        writeLink(dataOutputStream, organization.getHomePage());
+        List<Organization.Position> positions = organization.getPositions();
         dataOutputStream.writeInt(positions.size());
         for (int j = 0; j < positions.size(); j++) {
-            writePosition(dataOutputStream, positions, j);
+            writePosition(dataOutputStream, positions.get(j));
         }
     }
 
-    private void writeLink(DataOutputStream dataOutputStream, List<Organization> experienceList, int i) throws IOException {
-        Link homePage = experienceList.get(i).getHomePage();
-        dataOutputStream.writeUTF(homePage.getName());
-        if (homePage.getUrl() != null) {
-            dataOutputStream.writeUTF(homePage.getUrl());
+    private void writeLink(DataOutputStream dataOutputStream, Link link) throws IOException {
+        dataOutputStream.writeUTF(link.getName());
+        if (link.getUrl() != null) {
+            dataOutputStream.writeUTF(link.getUrl());
         } else {
             dataOutputStream.writeUTF("");
         }
     }
 
-    private void writePosition(DataOutputStream dataOutputStream, List<Organization.Position> positions, int j) throws IOException {
-        Organization.Position position = positions.get(j);
+    private void writePosition(DataOutputStream dataOutputStream, Organization.Position position) throws IOException {
         dataOutputStream.writeUTF(position.getStartDate().toString());
         dataOutputStream.writeUTF(position.getEndDate().toString());
         dataOutputStream.writeUTF(position.getTitle());
@@ -183,5 +117,69 @@ public class DataStreamSerializer implements StreamSerializer {
         } else {
             dataOutputStream.writeUTF("");
         }
+    }
+
+    private void readContacts(DataInputStream dataInputStream, Resume resume) throws IOException {
+        int size = dataInputStream.readInt();
+        for (int i = 0; i < size; i++) {
+            resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
+        }
+    }
+
+    private void readSections(DataInputStream dataInputStream, Resume resume) throws IOException {
+        int size = dataInputStream.readInt();
+        for (int i = 0; i < size; i++) {
+            SectionType sectionType = SectionType.valueOf(dataInputStream.readUTF());
+            if (sectionType == SectionType.PERSONAL
+                    || sectionType == SectionType.OBJECTIVE
+                    || sectionType == SectionType.ACHIEVEMENT) {
+                readTextSection(dataInputStream, resume, sectionType);
+            } else if (sectionType == SectionType.QUALIFICATIONS) {
+                readQualificationsSection(dataInputStream, resume, sectionType);
+            } else if (sectionType == SectionType.EXPERIENCE || sectionType == SectionType.EDUCATION) {
+                readExperienceSection(dataInputStream, resume, sectionType);
+            }
+        }
+    }
+
+    private void readExperienceSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
+        int educationSize = dataInputStream.readInt();
+        List<Organization> organizations = new ArrayList<>();
+        for (int j = 0; j < educationSize; j++) {
+            organizations.add(new Organization(readLink(dataInputStream), readPositions(dataInputStream)));
+        }
+        resume.addSection(sectionType, new OrganizationSection(organizations));
+    }
+
+    private  List<Organization.Position> readPositions(DataInputStream dataInputStream) throws IOException {
+        List<Organization.Position> positions = new ArrayList<>();
+        int positionsSize = dataInputStream.readInt();
+        for (int k = 0; k < positionsSize; k++) {
+            Organization.Position position = new Organization.Position(
+                    LocalDate.parse(dataInputStream.readUTF()),
+                    LocalDate.parse(dataInputStream.readUTF()),
+                    dataInputStream.readUTF(),
+                    dataInputStream.readUTF()
+            );
+            positions.add(position);
+        }
+        return positions;
+    }
+
+    private Link readLink(DataInputStream dataInputStream) throws IOException {
+        return new Link(dataInputStream.readUTF(), dataInputStream.readUTF());
+    }
+
+    private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
+        int qualificationSize = dataInputStream.readInt();
+        List<String> list = new ArrayList<>();
+        for (int j = 0; j < qualificationSize; j++) {
+            list.add(dataInputStream.readUTF());
+        }
+        resume.addSection(sectionType, new ListSection(list));
+    }
+
+    private void readTextSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
+        resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
     }
 }
