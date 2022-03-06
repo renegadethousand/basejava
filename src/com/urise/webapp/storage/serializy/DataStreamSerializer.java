@@ -19,8 +19,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DataStreamSerializer implements StreamSerializer {
+
+    private Set<SectionType> textSectionSet = Set.of(SectionType.PERSONAL,
+            SectionType.OBJECTIVE,
+            SectionType.ACHIEVEMENT);
+
+    private Set<SectionType> listSectionSet = Set.of(SectionType.QUALIFICATIONS);
+
+
+    private Set<SectionType> experienceSectionSet = Set.of(SectionType.EXPERIENCE,
+            SectionType.EDUCATION);
 
     @Override
     public void doWrite(Resume resume, OutputStream file) throws IOException {
@@ -57,13 +68,11 @@ public class DataStreamSerializer implements StreamSerializer {
         for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
             SectionType sectionType = entry.getKey();
             dataOutputStream.writeUTF(sectionType.name());
-            if (sectionType == SectionType.PERSONAL
-                    || sectionType == SectionType.OBJECTIVE
-                    || sectionType == SectionType.ACHIEVEMENT) {
+            if (textSectionSet.contains(sectionType)) {
                 writeTextSection(dataOutputStream, entry);
-            } else if (sectionType == SectionType.QUALIFICATIONS) {
+            } else if (listSectionSet.contains(sectionType)) {
                 writeQualificationsSection(dataOutputStream, entry);
-            } else if (sectionType == SectionType.EXPERIENCE || sectionType == SectionType.EDUCATION) {
+            } else if (experienceSectionSet.contains(sectionType)) {
                 writeExperienceSection(dataOutputStream, entry);
             }
         }
@@ -129,13 +138,11 @@ public class DataStreamSerializer implements StreamSerializer {
         int size = dataInputStream.readInt();
         for (int i = 0; i < size; i++) {
             SectionType sectionType = SectionType.valueOf(dataInputStream.readUTF());
-            if (sectionType == SectionType.PERSONAL
-                    || sectionType == SectionType.OBJECTIVE
-                    || sectionType == SectionType.ACHIEVEMENT) {
+            if (textSectionSet.contains(sectionType)) {
                 readTextSection(dataInputStream, resume, sectionType);
-            } else if (sectionType == SectionType.QUALIFICATIONS) {
+            } else if (listSectionSet.contains(sectionType)) {
                 readQualificationsSection(dataInputStream, resume, sectionType);
-            } else if (sectionType == SectionType.EXPERIENCE || sectionType == SectionType.EDUCATION) {
+            } else if (experienceSectionSet.contains(sectionType)) {
                 readExperienceSection(dataInputStream, resume, sectionType);
             }
         }
