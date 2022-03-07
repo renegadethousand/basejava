@@ -45,7 +45,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void writeContacts(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<ContactType, String> contacts = resume.getContacts();
-        forEachWriteWithException(dataOutputStream, contacts.entrySet(), entry -> {
+        writeWithExeption(dataOutputStream, contacts.entrySet(), entry -> {
             dataOutputStream.writeUTF(entry.getKey().name());
             dataOutputStream.writeUTF(entry.getValue());
         });
@@ -86,14 +86,14 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void writeExperienceSection(DataOutputStream dataOutputStream, Map.Entry<SectionType, Section> entry) throws IOException {
         List<Organization> experienceList = ((OrganizationSection) entry.getValue()).getExperienceList();
-        forEachWriteWithException(dataOutputStream, experienceList, organization -> {
+        writeWithExeption(dataOutputStream, experienceList, organization -> {
             writeExperience(dataOutputStream, organization);
         });
     }
 
     private void writeExperience(DataOutputStream dataOutputStream, Organization organization) throws IOException {
         writeLink(dataOutputStream, organization.getHomePage());
-        forEachWriteWithException(dataOutputStream, organization.getPositions(), position -> {
+        writeWithExeption(dataOutputStream, organization.getPositions(), position -> {
             writeLocalDate(position.getStartDate(), dataOutputStream);
             writeLocalDate(position.getEndDate(), dataOutputStream);
             dataOutputStream.writeUTF(position.getTitle());
@@ -112,7 +112,7 @@ public class DataStreamSerializer implements StreamSerializer {
         dataOutputStream.writeUTF(String.valueOf(date.getDayOfMonth()));
     }
 
-    private <T> void forEachWriteWithException(DataOutputStream dataOutputStream, Collection<T> collection, ConsumerWithException<T> consumer) throws IOException {
+    private <T> void writeWithExeption(DataOutputStream dataOutputStream, Collection<T> collection, ConsumerWithException<T> consumer) throws IOException {
         dataOutputStream.writeInt(collection.size());
         for (T item : collection) {
             consumer.accept(item);
@@ -149,12 +149,12 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        List<String> list = forEachReadWithException(dataInputStream, dataInputStream::readUTF);
+        List<String> list = readWithException(dataInputStream, dataInputStream::readUTF);
         resume.addSection(sectionType, new ListSection(list));
     }
 
     private void readExperienceSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        List<Organization> organizations = forEachReadWithException(dataInputStream, () -> {
+        List<Organization> organizations = readWithException(dataInputStream, () -> {
             return new Organization(readLink(dataInputStream), readPositions(dataInputStream));
         });
         resume.addSection(sectionType, new OrganizationSection(organizations));
@@ -165,7 +165,7 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private List<Organization.Position> readPositions(DataInputStream dataInputStream) throws IOException {
-        return forEachReadWithException(dataInputStream, () -> {
+        return readWithException(dataInputStream, () -> {
             return new Organization.Position(
                     readLocalDate(dataInputStream),
                     readLocalDate(dataInputStream),
@@ -183,7 +183,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
     }
 
-    private <T> List<T> forEachReadWithException(DataInputStream dataInputStream, SupplierWithException<T> supplier) throws IOException {
+    private <T> List<T> readWithException(DataInputStream dataInputStream, SupplierWithException<T> supplier) throws IOException {
         int size = dataInputStream.readInt();
         List<T> list = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
