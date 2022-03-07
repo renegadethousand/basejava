@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -44,11 +45,10 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void writeContacts(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<ContactType, String> contacts = resume.getContacts();
-        dataOutputStream.writeInt(contacts.size());
-        for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+        forEachWriteWithException(dataOutputStream, contacts.entrySet(), entry -> {
             dataOutputStream.writeUTF(entry.getKey().name());
             dataOutputStream.writeUTF(entry.getValue());
-        }
+        });
     }
 
     private void writeSections(Resume resume, DataOutputStream dataOutputStream) throws IOException {
@@ -86,31 +86,24 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void writeExperienceSection(DataOutputStream dataOutputStream, Map.Entry<SectionType, Section> entry) throws IOException {
         List<Organization> experienceList = ((OrganizationSection) entry.getValue()).getExperienceList();
-        dataOutputStream.writeInt(experienceList.size());
-        for (Organization organization : experienceList) {
+        forEachWriteWithException(dataOutputStream, experienceList, organization -> {
             writeExperience(dataOutputStream, organization);
-        }
+        });
     }
 
     private void writeExperience(DataOutputStream dataOutputStream, Organization organization) throws IOException {
         writeLink(dataOutputStream, organization.getHomePage());
-        List<Organization.Position> positions = organization.getPositions();
-        dataOutputStream.writeInt(positions.size());
-        for (Organization.Position position : positions) {
-            writePosition(dataOutputStream, position);
-        }
+        forEachWriteWithException(dataOutputStream, organization.getPositions(), position -> {
+            writeLocalDate(position.getStartDate(), dataOutputStream);
+            writeLocalDate(position.getEndDate(), dataOutputStream);
+            dataOutputStream.writeUTF(position.getTitle());
+            dataOutputStream.writeUTF(position.getDescription() != null ? position.getDescription() : "");
+        });
     }
 
     private void writeLink(DataOutputStream dataOutputStream, Link link) throws IOException {
         dataOutputStream.writeUTF(link.getName());
         dataOutputStream.writeUTF(link.getUrl() != null ? link.getUrl() : "");
-    }
-
-    private void writePosition(DataOutputStream dataOutputStream, Organization.Position position) throws IOException {
-        writeLocalDate(position.getStartDate(), dataOutputStream);
-        writeLocalDate(position.getEndDate(), dataOutputStream);
-        dataOutputStream.writeUTF(position.getTitle());
-        dataOutputStream.writeUTF(position.getDescription() != null ? position.getDescription() : "");
     }
 
     private void writeLocalDate(LocalDate date, DataOutputStream dataOutputStream) throws IOException {
@@ -119,11 +112,17 @@ public class DataStreamSerializer implements StreamSerializer {
         dataOutputStream.writeUTF(String.valueOf(date.getDayOfMonth()));
     }
 
-    private void readContacts(DataInputStream dataInputStream, Resume resume) throws IOException {
-        int size = dataInputStream.readInt();
-        for (int i = 0; i < size; i++) {
-            resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
+    private <T> void forEachWriteWithException(DataOutputStream dataOutputStream, Collection<T> collection, ConsumerWithException<T> consumer) throws IOException {
+        dataOutputStream.writeInt(collection.size());
+        for (T item : collection) {
+            consumer.accept(item);
         }
+    }
+
+    private void readContacts(DataInputStream dataInputStream, Resume resume) throws IOException {
+        forEachReadVoidWithException(dataInputStream, () -> {
+            resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
+        });
     }
 
     private void readSections(DataInputStream dataInputStream, Resume resume) throws IOException {
@@ -150,20 +149,14 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        int qualificationSize = dataInputStream.readInt();
-        List<String> list = new ArrayList<>();
-        for (int j = 0; j < qualificationSize; j++) {
-            list.add(dataInputStream.readUTF());
-        }
+        List<String> list = forEachReadWithException(dataInputStream, dataInputStream::readUTF);
         resume.addSection(sectionType, new ListSection(list));
     }
 
     private void readExperienceSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        int educationSize = dataInputStream.readInt();
-        List<Organization> organizations = new ArrayList<>();
-        for (int j = 0; j < educationSize; j++) {
-            organizations.add(new Organization(readLink(dataInputStream), readPositions(dataInputStream)));
-        }
+        List<Organization> organizations = forEachReadWithException(dataInputStream, () -> {
+            return new Organization(readLink(dataInputStream), readPositions(dataInputStream));
+        });
         resume.addSection(sectionType, new OrganizationSection(organizations));
     }
 
@@ -172,18 +165,14 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private List<Organization.Position> readPositions(DataInputStream dataInputStream) throws IOException {
-        List<Organization.Position> positions = new ArrayList<>();
-        int positionsSize = dataInputStream.readInt();
-        for (int k = 0; k < positionsSize; k++) {
-            Organization.Position position = new Organization.Position(
+        return forEachReadWithException(dataInputStream, () -> {
+            return new Organization.Position(
                     readLocalDate(dataInputStream),
                     readLocalDate(dataInputStream),
                     dataInputStream.readUTF(),
                     dataInputStream.readUTF()
             );
-            positions.add(position);
-        }
-        return positions;
+        });
     }
 
     private LocalDate readLocalDate(DataInputStream dataInputStream) throws IOException {
@@ -192,5 +181,21 @@ public class DataStreamSerializer implements StreamSerializer {
                 Integer.parseInt(dataInputStream.readUTF()),
                 Integer.parseInt(dataInputStream.readUTF()));
 
+    }
+
+    private <T> List<T> forEachReadWithException(DataInputStream dataInputStream, SupplierWithException<T> supplier) throws IOException {
+        int size = dataInputStream.readInt();
+        List<T> list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            list.add(supplier.apply());
+        }
+        return list;
+    }
+
+    private <T> void forEachReadVoidWithException(DataInputStream dataInputStream, VoidSupplierWithException supplier) throws IOException {
+        int size = dataInputStream.readInt();
+        for (int i = 0; i < size; i++) {
+            supplier.apply();
+        }
     }
 }
