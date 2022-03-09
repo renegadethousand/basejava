@@ -8,7 +8,7 @@ import java.util.List;
 public class MainConcurrency {
 
     public static final int THREADS_NUMBER = 10_000;
-    private static int counter;
+    private volatile int counter;
 
     private static final Object LOCK = new Object();
 
@@ -47,10 +47,10 @@ public class MainConcurrency {
             thread1.join();
         }
 
-        System.out.println(counter);
+        System.out.println(mainConcurrency.counter);
     }
 
-    private synchronized void inc() {
+    private void inc() {
         counter++;
     }
 }
