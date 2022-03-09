@@ -45,7 +45,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void writeContacts(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<ContactType, String> contacts = resume.getContacts();
-        writeWithExeption(dataOutputStream, contacts.entrySet(), entry -> {
+        writeWithException(dataOutputStream, contacts.entrySet(), entry -> {
             dataOutputStream.writeUTF(entry.getKey().name());
             dataOutputStream.writeUTF(entry.getValue());
         });
@@ -53,8 +53,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void writeSections(Resume resume, DataOutputStream dataOutputStream) throws IOException {
         Map<SectionType, Section> sections = resume.getSections();
-        dataOutputStream.writeInt(sections.size());
-        for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+        writeWithException(dataOutputStream, sections.entrySet(), entry -> {
             SectionType sectionType = entry.getKey();
             dataOutputStream.writeUTF(sectionType.name());
             switch (sectionType) {
@@ -64,46 +63,27 @@ public class DataStreamSerializer implements StreamSerializer {
                     dataOutputStream.writeUTF(((TextSection) entry.getValue()).getContent());
                     break;
                 case QUALIFICATIONS:
-                    writeQualificationsSection(dataOutputStream, entry);
+                    writeWithException(dataOutputStream, ((ListSection) entry.getValue()).getItems(), dataOutputStream::writeUTF);
                     break;
                 case EXPERIENCE:
                 case EDUCATION:
-                    writeExperienceSection(dataOutputStream, entry);
+                    writeWithException(dataOutputStream, ((OrganizationSection) entry.getValue()).getExperienceList(),
+                    organization -> {
+                        dataOutputStream.writeUTF(organization.getHomePage().getName());
+                        dataOutputStream.writeUTF(organization.getHomePage().getUrl() != null
+                                ? organization.getHomePage().getUrl() : "");
+                        writeWithException(dataOutputStream, organization.getPositions(), position -> {
+                                    writeLocalDate(position.getStartDate(), dataOutputStream);
+                                    writeLocalDate(position.getEndDate(), dataOutputStream);
+                                    dataOutputStream.writeUTF(position.getTitle());
+                                    dataOutputStream.writeUTF(position.getDescription() != null ? position.getDescription() : "");
+                                });
+                    });
                     break;
                 default:
                     break;
             }
-        }
-    }
-
-    private void writeQualificationsSection(DataOutputStream dataOutputStream, Map.Entry<SectionType, Section> entry) throws IOException {
-        List<String> items = ((ListSection) entry.getValue()).getItems();
-        dataOutputStream.writeInt(items.size());
-        for (String item : items) {
-            dataOutputStream.writeUTF(item);
-        }
-    }
-
-    private void writeExperienceSection(DataOutputStream dataOutputStream, Map.Entry<SectionType, Section> entry) throws IOException {
-        List<Organization> experienceList = ((OrganizationSection) entry.getValue()).getExperienceList();
-        writeWithExeption(dataOutputStream, experienceList, organization -> {
-            writeExperience(dataOutputStream, organization);
         });
-    }
-
-    private void writeExperience(DataOutputStream dataOutputStream, Organization organization) throws IOException {
-        writeLink(dataOutputStream, organization.getHomePage());
-        writeWithExeption(dataOutputStream, organization.getPositions(), position -> {
-            writeLocalDate(position.getStartDate(), dataOutputStream);
-            writeLocalDate(position.getEndDate(), dataOutputStream);
-            dataOutputStream.writeUTF(position.getTitle());
-            dataOutputStream.writeUTF(position.getDescription() != null ? position.getDescription() : "");
-        });
-    }
-
-    private void writeLink(DataOutputStream dataOutputStream, Link link) throws IOException {
-        dataOutputStream.writeUTF(link.getName());
-        dataOutputStream.writeUTF(link.getUrl() != null ? link.getUrl() : "");
     }
 
     private void writeLocalDate(LocalDate date, DataOutputStream dataOutputStream) throws IOException {
@@ -112,7 +92,7 @@ public class DataStreamSerializer implements StreamSerializer {
         dataOutputStream.writeUTF(String.valueOf(date.getDayOfMonth()));
     }
 
-    private <T> void writeWithExeption(DataOutputStream dataOutputStream, Collection<T> collection, ConsumerWithException<T> consumer) throws IOException {
+    private <T> void writeWithException(DataOutputStream dataOutputStream, Collection<T> collection, ConsumerWithException<T> consumer) throws IOException {
         dataOutputStream.writeInt(collection.size());
         for (T item : collection) {
             consumer.accept(item);
@@ -126,8 +106,7 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private void readSections(DataInputStream dataInputStream, Resume resume) throws IOException {
-        int size = dataInputStream.readInt();
-        for (int i = 0; i < size; i++) {
+        forEachReadVoidWithException(dataInputStream, () -> {
             SectionType sectionType = SectionType.valueOf(dataInputStream.readUTF());
             switch (sectionType) {
                 case PERSONAL:
@@ -136,42 +115,27 @@ public class DataStreamSerializer implements StreamSerializer {
                     resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
                     break;
                 case QUALIFICATIONS:
-                    readQualificationsSection(dataInputStream, resume, sectionType);
+                    List<String> list = readWithException(dataInputStream, dataInputStream::readUTF);
+                    resume.addSection(sectionType, new ListSection(list));
                     break;
                 case EXPERIENCE:
                 case EDUCATION:
-                    readExperienceSection(dataInputStream, resume, sectionType);
+                    List<Organization> organizations = readWithException(dataInputStream, () -> {
+                        return new Organization(new Link(dataInputStream.readUTF(), dataInputStream.readUTF()),
+                                readWithException(dataInputStream, () -> {
+                                    return new Organization.Position(
+                                            readLocalDate(dataInputStream),
+                                            readLocalDate(dataInputStream),
+                                            dataInputStream.readUTF(),
+                                            dataInputStream.readUTF()
+                                    );
+                                }));
+                    });
+                    resume.addSection(sectionType, new OrganizationSection(organizations));
                     break;
                 default:
                     break;
             }
-        }
-    }
-
-    private void readQualificationsSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        List<String> list = readWithException(dataInputStream, dataInputStream::readUTF);
-        resume.addSection(sectionType, new ListSection(list));
-    }
-
-    private void readExperienceSection(DataInputStream dataInputStream, Resume resume, SectionType sectionType) throws IOException {
-        List<Organization> organizations = readWithException(dataInputStream, () -> {
-            return new Organization(readLink(dataInputStream), readPositions(dataInputStream));
-        });
-        resume.addSection(sectionType, new OrganizationSection(organizations));
-    }
-
-    private Link readLink(DataInputStream dataInputStream) throws IOException {
-        return new Link(dataInputStream.readUTF(), dataInputStream.readUTF());
-    }
-
-    private List<Organization.Position> readPositions(DataInputStream dataInputStream) throws IOException {
-        return readWithException(dataInputStream, () -> {
-            return new Organization.Position(
-                    readLocalDate(dataInputStream),
-                    readLocalDate(dataInputStream),
-                    dataInputStream.readUTF(),
-                    dataInputStream.readUTF()
-            );
         });
     }
 
