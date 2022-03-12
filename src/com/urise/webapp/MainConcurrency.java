@@ -12,11 +12,7 @@ public class MainConcurrency {
 
     private static final Object LOCK = new Object();
 
-    private static final Object BANK_ACCOUNT_1 = new Object();
-    private static final Object BANK_ACCOUNT_2 = new Object();
-
     public static void main(String[] args) throws InterruptedException {
-        deadLock();
         System.out.println(Thread.currentThread().getName());
         Thread thread = new Thread() {
             @Override
@@ -58,23 +54,5 @@ public class MainConcurrency {
         counter++;
     }
 
-    private static void deadLock() {
-        new Thread(() -> {
-            transferMoney(BANK_ACCOUNT_1, BANK_ACCOUNT_2);
-        }).start();
-        new Thread(() -> {
-            transferMoney(BANK_ACCOUNT_2, BANK_ACCOUNT_1);
-        }).start();
-    }
 
-    private static void transferMoney(Object bankAccountFrom, Object bankAccountTo) {
-        synchronized (bankAccountFrom) {
-            System.out.println("Захвачен монитор обьекта " + bankAccountFrom + " потоком " + Thread.currentThread().getName());
-            synchronized (bankAccountTo) {
-                System.out.println("Захвачен монитор обьекта " + bankAccountTo + " потоком " + Thread.currentThread().getName());
-            }
-            System.out.println("Освобожден монитор обьекта " + bankAccountTo + " потоком " + Thread.currentThread().getName());
-        }
-        System.out.println("Освобожден монитор обьекта " + bankAccountFrom + " потоком " + Thread.currentThread().getName());
-    }
 }
