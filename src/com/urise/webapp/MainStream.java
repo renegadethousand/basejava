@@ -20,16 +20,10 @@ public class MainStream {
     }
 
     static List<Integer> oddOrEven(List<Integer> integers) {
-        boolean even = integers.stream()
-                .reduce(0, Integer::sum) % 2 == 0;
-        return integers.stream()
-                .filter(item -> {
-                    if (even) {
-                        return item % 2 != 0;
-                    } else {
-                        return item % 2 == 0;
-                    }
-                })
-                .collect(Collectors.toList());
+        Map<Boolean, List<Integer>> map = integers.stream()
+                .collect(Collectors.partitioningBy(item -> item % 2 == 0));
+        int sum = integers.stream()
+                .reduce(0, Integer::sum);
+        return map.get(sum % 2 == 0);
     }
 }
