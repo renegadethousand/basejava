@@ -29,4 +29,8 @@ public class Config {
     public File getStorageDir() {
         return storageDir;
     }
+
+    public Properties getProps() {
+        return props;
+    }
 }
