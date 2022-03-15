@@ -1,5 +1,7 @@
 package com.urise.webapp;
 
+import com.urise.webapp.storage.SqlStorage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,7 +32,9 @@ public class Config {
         return storageDir;
     }
 
-    public Properties getProps() {
-        return props;
+    public SqlStorage getSqlStorage() {
+        return new SqlStorage(props.getProperty("db.url"),
+                props.getProperty("db.user"),
+                props.getProperty("db.password"));
     }
 }
