@@ -13,12 +13,7 @@ public class SqlHelper {
     public final ConnectionFactory connectionFactory;
 
     public SqlHelper(String dbUrl, String dbUser, String dbPassword) {
-        this.connectionFactory = new ConnectionFactory() {
-            @Override
-            public Connection getConnection() throws SQLException {
-                return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-            }
-        };
+        this.connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
     public <T> T execute(String query, SqlExecute<T> sqlExecute) {
