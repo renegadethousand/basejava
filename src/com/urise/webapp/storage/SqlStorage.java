@@ -43,16 +43,7 @@ public class SqlStorage implements Storage {
                 preparedStatement -> {
                     preparedStatement.setString(1, resume.getUuid());
                     preparedStatement.setString(2, resume.getFullName());
-                    try {
-                        preparedStatement.execute();
-                    } catch (SQLException exception) {
-                        if (exception.getSQLState().equals("23505")) {
-                            throw new ExistStorageException(resume.getUuid());
-                        } else {
-                            throw new SQLException(exception);
-                        }
-                    }
-
+                    preparedStatement.execute();
                     return null;
                 });
     }
@@ -86,7 +77,7 @@ public class SqlStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         return sqlHelper.execute(
-                "Select * from resume",
+                "Select * from resume order by full_name",
                 (preparedStatement) -> {
                     final ResultSet resultSet = preparedStatement.executeQuery();
                     List<Resume> resumeList = new ArrayList<>();
@@ -106,7 +97,7 @@ public class SqlStorage implements Storage {
                 (preparedStatement) -> {
                     final ResultSet resultSet = preparedStatement.executeQuery();
                     resultSet.next();
-                    return Integer.parseInt(resultSet.getString("count"));
+                    return resultSet.getInt("count");
                 });
     }
 }
