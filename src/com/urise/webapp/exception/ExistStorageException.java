@@ -3,7 +3,7 @@ package com.urise.webapp.exception;
 public class ExistStorageException extends StorageException {
 
     public ExistStorageException(Exception exception) {
-        this(exception.getMessage());
+        super(exception);
     }
 
     public ExistStorageException(String uuid) {

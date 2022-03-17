@@ -77,7 +77,7 @@ public class SqlStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         return sqlHelper.execute(
-                "Select * from resume order by full_name",
+                "Select * from resume order by full_name, uuid",
                 (preparedStatement) -> {
                     final ResultSet resultSet = preparedStatement.executeQuery();
                     List<Resume> resumeList = new ArrayList<>();
