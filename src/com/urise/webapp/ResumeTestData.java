@@ -228,13 +228,13 @@ public class ResumeTestData {
 //
 //        resume.getSections().put(SectionType.EDUCATION, educationInformation);
 //
-//        resume.getContacts().put(ContactType.PHONE, "+7(921) 855-0482");
-//        resume.getContacts().put(ContactType.SKYPE, "grigory.kislin");
-//        resume.getContacts().put(ContactType.MAIL, "gkislin@yandex.ru");
-//        resume.getContacts().put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-//        resume.getContacts().put(ContactType.GITHUB, "https://github.com/gkislin");
-//        resume.getContacts().put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-//        resume.getContacts().put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        resume.getContacts().put(ContactType.PHONE, "+7(921) 855-0482");
+        resume.getContacts().put(ContactType.SKYPE, "grigory.kislin");
+        resume.getContacts().put(ContactType.MAIL, "gkislin@yandex.ru");
+        resume.getContacts().put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.getContacts().put(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.getContacts().put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        resume.getContacts().put(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
         return resume;
     }
