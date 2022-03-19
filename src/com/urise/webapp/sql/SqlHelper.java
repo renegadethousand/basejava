@@ -1,11 +1,9 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.sql;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.StorageException;
-import com.urise.webapp.sql.ConnectionFactory;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -13,8 +11,15 @@ public class SqlHelper {
 
     public final ConnectionFactory connectionFactory;
 
-    public SqlHelper(String dbUrl, String dbUser, String dbPassword) {
-        this.connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    public SqlHelper(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
+
+    public void execute(String query) {
+        execute(query, preparedStatement -> {
+            preparedStatement.execute();
+            return null;
+        });
     }
 
     public <T> T execute(String query, SqlExecute<T> sqlExecute) {
