@@ -3,7 +3,6 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.sql.SqlExecute;
 import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.DriverManager;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class SqlStorage implements Storage {
 
@@ -91,11 +89,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume resume = new Resume(resultSet.getString("uuid"), resultSet.getString("full_name"));
                     do {
-                        if (resultSet.getString("value") != null) {
-                            String value = resultSet.getString("value");
-                            ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
-                            resume.addContact(contactType, value);
-                        }
+                        addContact(resultSet, resume);
                     } while (resultSet.next());
                     return resume;
                 });
@@ -125,14 +119,18 @@ public class SqlStorage implements Storage {
                         Resume resume = resumeMap.getOrDefault(resultSet.getString("uuid"),
                                 new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
                         resumeMap.putIfAbsent(resume.getUuid(), resume);
-                        if (resultSet.getString("value") != null) {
-                            String value = resultSet.getString("value");
-                            ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
-                            resume.addContact(contactType, value);
-                        }
+                        addContact(resultSet, resume);
                     }
                     return new ArrayList<>(resumeMap.values());
                 });
+    }
+
+    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
+        if (resultSet.getString("value") != null) {
+            String value = resultSet.getString("value");
+            ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
+            resume.addContact(contactType, value);
+        }
     }
 
     @Override
