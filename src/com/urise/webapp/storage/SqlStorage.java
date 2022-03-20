@@ -39,11 +39,16 @@ public class SqlStorage implements Storage {
                 }
             }
             try (PreparedStatement preparedStatement =
-                         connection.prepareStatement("UPDATE contact SET  value = ? WHERE resume_uuid = ? AND type = ?")) {
+                         connection.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
+                preparedStatement.setString(1, resume.getUuid());
+                preparedStatement.execute();
+            }
+            try (PreparedStatement preparedStatement =
+                         connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
                 for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
-                    preparedStatement.setString(1, entry.getKey().name());
-                    preparedStatement.setString(2, entry.getValue());
-                    preparedStatement.setString(3, resume.getUuid());
+                    preparedStatement.setString(1, resume.getUuid());
+                    preparedStatement.setString(2, entry.getKey().name());
+                    preparedStatement.setString(3, entry.getValue());
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -111,7 +116,7 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         return  sqlHelper.execute(
                 "Select * from resume r " +
-                        "LEFT JOIN contact c ON r.uuid = c.resume_uuid",
+                        "LEFT JOIN contact c ON r.uuid = c.resume_uuid ORDER BY full_name, uuid",
                 (preparedStatement) -> {
                     final ResultSet resultSet = preparedStatement.executeQuery();
                     Map<String, Resume> resumeMap = new HashMap<>();

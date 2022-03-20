@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,8 +86,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> expected = List.of(R1, R2, R3);
-
+        List<Resume> expected = new ArrayList<>(Arrays.asList(R1, R2, R3));
+        expected.sort(Comparator.naturalOrder());
         List<Resume> actual = storage.getAllSorted();
         assertEquals(expected, actual);
     }
@@ -103,6 +106,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
+        R3.getContacts().clear();
         storage.update(R3);
         assertEquals(R3, storage.get(UUID_3));
     }
