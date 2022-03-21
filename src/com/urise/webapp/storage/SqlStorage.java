@@ -11,8 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +44,7 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(1, resume.getUuid());
                 preparedStatement.execute();
             }
-            addContacts(resume, connection);
+            saveContacts(resume, connection);
             return null;
         });
     }
@@ -59,22 +58,9 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(2, resume.getFullName());
                 preparedStatement.execute();
             }
-            addContacts(resume, connection);
+            saveContacts(resume, connection);
             return null;
         });
-    }
-
-    private void addContacts(Resume resume, Connection connection) throws SQLException {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
-            for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
-                preparedStatement.setString(1, resume.getUuid());
-                preparedStatement.setString(2, entry.getKey().name());
-                preparedStatement.setString(3, entry.getValue());
-                preparedStatement.addBatch();
-            }
-            preparedStatement.executeBatch();
-        }
     }
 
     @Override
@@ -91,7 +77,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume resume = new Resume(resultSet.getString("uuid"), resultSet.getString("full_name"));
                     do {
-                        addContact(resultSet, resume);
+                        readContact(resultSet, resume);
                     } while (resultSet.next());
                     return resume;
                 });
@@ -116,25 +102,15 @@ public class SqlStorage implements Storage {
                         "LEFT JOIN contact c ON r.uuid = c.resume_uuid ORDER BY full_name, uuid",
                 (preparedStatement) -> {
                     final ResultSet resultSet = preparedStatement.executeQuery();
-                    Map<String, Resume> resumeMap = new HashMap<>();
+                    Map<String, Resume> resumeMap = new LinkedHashMap<>();
                     while (resultSet.next()) {
                         Resume resume = resumeMap.getOrDefault(resultSet.getString("uuid"),
                                 new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
                         resumeMap.putIfAbsent(resume.getUuid(), resume);
-                        addContact(resultSet, resume);
+                        readContact(resultSet, resume);
                     }
-                    ArrayList<Resume> resumes = new ArrayList<>(resumeMap.values());
-                    resumes.sort(Comparator.naturalOrder());
-                    return resumes;
+                    return new ArrayList<>(resumeMap.values());
                 });
-    }
-
-    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
-        if (resultSet.getString("value") != null) {
-            String value = resultSet.getString("value");
-            ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
-            resume.addContact(contactType, value);
-        }
     }
 
     @Override
@@ -146,5 +122,26 @@ public class SqlStorage implements Storage {
                     resultSet.next();
                     return resultSet.getInt("count");
                 });
+    }
+
+    private void saveContacts(Resume resume, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+            for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
+                preparedStatement.setString(1, resume.getUuid());
+                preparedStatement.setString(2, entry.getKey().name());
+                preparedStatement.setString(3, entry.getValue());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+        }
+    }
+
+    private void readContact(ResultSet resultSet, Resume resume) throws SQLException {
+        if (resultSet.getString("value") != null) {
+            String value = resultSet.getString("value");
+            ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
+            resume.addContact(contactType, value);
+        }
     }
 }
