@@ -28,7 +28,7 @@ alter table contact
 create unique index contact_uuid_type_index
     on contact (resume_uuid, type);
 
-create table list_section
+create table section
 (
     id serial
         constraint list_section_pk
@@ -41,7 +41,7 @@ create table list_section
     type text
 );
 
-alter table list_section owner to postgres;
+alter table section owner to postgres;
 
 
 

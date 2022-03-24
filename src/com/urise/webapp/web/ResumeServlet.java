@@ -12,6 +12,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
+
+    SqlStorage sqlStorage;
+
+    @Override
+    public void init() throws ServletException {
+        sqlStorage = (SqlStorage) Config.get().getSqlStorage();
+        super.init();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -25,7 +34,6 @@ public class ResumeServlet extends HttpServlet {
             response.getWriter().write("Hello " + name + "!");
         }
 
-        SqlStorage sqlStorage = (SqlStorage) Config.get().getSqlStorage();
         final List<Resume> resumeList = sqlStorage.getAllSorted();
         response.getWriter().write("<table>");
         response.getWriter().write("<tr>");
