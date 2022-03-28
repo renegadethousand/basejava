@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import static com.urise.webapp.TestData.EMPTY_NAME;
 import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {

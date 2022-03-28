@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+import static com.urise.webapp.TestData.*;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -22,34 +23,6 @@ public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected Storage storage;
-
-    protected static String NAME_1 = "ALEXEI";
-    protected static String NAME_2 = "IVAN";
-    protected static String NAME_3 = "SERGEY";
-    protected static String NAME_4 = "VASILIY";
-    protected static String EMPTY_NAME = "EMPTY_NAME";
-
-    private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final String UUID_3 = UUID.randomUUID().toString();
-    private static final String UUID_4 = UUID.randomUUID().toString();
-
-    private static final String NOT_EXIST_UUID = "dummy";
-
-    private static final Resume R1;
-    private static final Resume R2;
-    private static final Resume R3;
-    private static final Resume R4;
-    private static final Resume RESUME_EXAMPLE_NOT_EXIST;
-
-
-    static {
-        R1 = ResumeTestData.generateResume(UUID_1, NAME_1);
-        R2 = ResumeTestData.generateResume(UUID_2, NAME_2);
-        R3 = ResumeTestData.generateResume(UUID_3, NAME_3);
-        R4 = ResumeTestData.generateResume(UUID_4, NAME_4);
-        RESUME_EXAMPLE_NOT_EXIST = ResumeTestData.generateResume(NOT_EXIST_UUID, EMPTY_NAME);
-    }
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;

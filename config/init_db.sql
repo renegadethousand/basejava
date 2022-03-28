@@ -31,14 +31,14 @@ create unique index contact_uuid_type_index
 create table section
 (
     id serial
-        constraint list_section_pk
+        constraint section_pk
             primary key,
-    value text,
     resume_uuid char(36) not null
         constraint list_section_resume_uuid_fk
             references resume
             on delete cascade,
-    type text
+    type text not null,
+    content text not null
 );
 
 alter table section owner to postgres;
