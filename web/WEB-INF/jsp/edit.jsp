@@ -1,4 +1,5 @@
-<%@ page import="com.urise.webapp.model.ContactType" %><%--
+<%@ page import="com.urise.webapp.model.ContactType" %>
+<%@ page import="com.urise.webapp.model.SectionType" %><%--
   Created by IntelliJ IDEA.
   User: Джабраил
   Date: 29.03.2022
@@ -25,7 +26,7 @@
         </dl>
         <h3>Контакты:</h3>
         <p>
-            <c:forEach var="type" items="<%=ContactType.values()%>">
+        <c:forEach var="type" items="<%=ContactType.values()%>">
         <dl>
             <dt>${type.title}</dt>
             <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
@@ -33,12 +34,15 @@
         </c:forEach>
         </p>
         <h3>Секции:</h3>
-        <dd><input type="text" name="section" size=30 value="1"></dd><br/>
-        <dd><input type="text" name="section" size=30 value="2"></dd><br/>
-        <dd><input type="text" name="section" size=30 value="3"></dd><br/>
+        <c:forEach var="sectionType" items="<%=SectionType.values()%>">
+            <dl>
+                <dt>${sectionType.title}</dt>
+                <p><textarea rows="3" cols="45" name="${sectionType.name()}">${resume.getSection(sectionType)}</textarea></p>
+            </dl>
+        </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+        <button type="reset" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"></jsp:include>
