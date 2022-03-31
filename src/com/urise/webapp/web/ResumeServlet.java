@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static com.urise.webapp.model.SectionType.*;
 
@@ -64,7 +66,10 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(value.split("\n")));
+                        resume.addSection(type, new ListSection(Arrays.stream(value.split("\n"))
+                                .map(String::trim)
+                                .filter(el -> !el.isEmpty())
+                                .collect(Collectors.toList())));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:

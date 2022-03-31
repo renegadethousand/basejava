@@ -2,6 +2,7 @@ package com.urise.webapp.model;
 
 import org.w3c.dom.Text;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public enum SectionType {
@@ -29,8 +30,18 @@ public enum SectionType {
             return getContentListSection(section);
         }
     },
-    EXPERIENCE("Опыт работы"),
-    EDUCATION("Образование");
+    EXPERIENCE("Опыт работы") {
+        @Override
+        public String toHtml0(Section section) {
+            return getContentOrganizationSection(section);
+        }
+    },
+    EDUCATION("Образование") {
+        @Override
+        public String toHtml0(Section section) {
+            return getContentOrganizationSection(section);
+        }
+    };
 
     private String title;
 
@@ -67,6 +78,42 @@ public enum SectionType {
                 .append(getTitle())
                 .append("</h3>");
         value.forEach(el -> stringBuilder.append(el).append("<br>"));
+        return stringBuilder.toString();
+    }
+
+    public String getContentOrganizationSection(Section section) {
+        List<Organization> value = ((OrganizationSection) section).getExperienceList();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<h3>")
+                .append(getTitle())
+                .append("</h3>");
+
+        for (Organization organization : value) {
+
+            stringBuilder.append("<a ")
+                    .append("href=\"")
+                    .append(organization.getHomePage().getUrl())
+                    .append("\">")
+                    .append(organization.getHomePage().getName())
+                    .append("</a></br></br>");
+            for (Organization.Position position : organization.getPositions()) {
+                stringBuilder.append(position.getStartDate())
+                        .append(" - ")
+                        .append(
+                                position.getEndDate().isEqual(LocalDate.of(1,1,1))
+                                        ? "Настоящее время" : position.getEndDate())
+                        .append("</br>")
+                        .append("</br>")
+                        .append(position.getTitle())
+                        .append("</br>")
+                        .append("</br>");
+                if (position.getDescription() != null) {
+                    stringBuilder.append(position.getDescription())
+                            .append("</br>")
+                            .append("</br>");
+                }
+            }
+        }
         return stringBuilder.toString();
     }
 }
