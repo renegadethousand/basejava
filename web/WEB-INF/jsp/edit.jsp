@@ -35,10 +35,101 @@
         </p>
         <h3>Секции:</h3>
         <c:forEach var="sectionType" items="<%=SectionType.values()%>">
-            <dl>
-                <dt>${sectionType.title}</dt>
-                <p><textarea rows="3" cols="45" name="${sectionType.name()}">${resume.getSection(sectionType)}</textarea></p>
-            </dl>
+            <c:choose>
+                <c:when test="${sectionType == SectionType.EXPERIENCE || sectionType == SectionType.EDUCATION}">
+                    <dl>
+                        <dt>${sectionType.title}</dt>
+                    </dl>
+                    </br>
+                    <c:set var="currentSection" value="${resume.getSection(sectionType)}"/>
+                    <jsp:useBean id="currentSection" type="com.urise.webapp.model.OrganizationSection"/>
+                    <c:set var="organizationList" value="<%=currentSection.getOrganizationsList()%>"/>
+                    <input type="hidden" name="${sectionType.name()}_organizations" size="80" value="${organizationList.size() + 1}">
+                    <c:forEach var="organization" items="${organizationList}" varStatus="counter">
+                        <dl>
+                            <dt>Название</dt>
+                            <dd><input type="text" name="${sectionType.name()}_name_${counter.index}" size="80" value="${organization.homePage.name}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>Ссылка</dt>
+                            <dd><input type="text" name="${sectionType.name()}_page_${counter.index}" size="80" value="${organization.homePage.url}"></dd>
+                        </dl>
+                        <input type="hidden" name="${sectionType.name()}_${counter.index}_positions" size="80" value="${organization.positions.size() + 1}">
+                        <c:forEach var="position" items="${organization.positions}" varStatus="expCounter">
+                            <dl>
+                                <dt>Дата начала</dt>
+                                <dd><input type="text" name="${sectionType.name()}_startDate_${counter.index}_${expCounter.index}" size="80" value="${position.startDate}"></dd>
+                            </dl>
+                            <dl>
+                                <dt>Дата окончания</dt>
+                                <dd><input type="text" name="${sectionType.name()}_endDate_${counter.index}_${expCounter.index}" size="80" value="${position.endDate}"></dd>
+                            </dl>
+                            <dl>
+                                <dt>Должность</dt>
+                                <dd><input type="text" name="${sectionType.name()}_title_${counter.index}_${expCounter.index}" size="80" value="${position.title}"></dd>
+                            </dl>
+                            <dl>
+                                <dt>Описание</dt>
+                                <dd><input type="text" name="${sectionType.name()}_description_${counter.index}_${expCounter.index}" size="80" value="${position.description}"></dd>
+                            </dl>
+                        </c:forEach>
+                        <dl>
+                            <dt>Добавить новую позицию в организацию ${organization.homePage.name}</dt>
+                        </dl>
+                        <dl>
+                            <dt>Дата начала</dt>
+                            <dd><input type="text" name="${sectionType.name()}_startDate_${counter.index}_${organization.positions.size()}" size="80" value="${position.startDate}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>Дата окончания</dt>
+                            <dd><input type="text" name="${sectionType.name()}_endDate_${counter.index}_${organization.positions.size()}" size="80" value="${position.endDate}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>Должность</dt>
+                            <dd><input type="text" name="${sectionType.name()}_title_${counter.index}_${organization.positions.size()}" size="80" value="${position.title}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>Описание</dt>
+                            <dd><input type="text" name="${sectionType.name()}_description_${counter.index}_${organization.positions.size()}" size="80" value="${position.description}"></dd>
+                        </dl>
+                        </br>
+                    </c:forEach>
+                    <dl>
+                        <dt>Добавить ${sectionType.title}</dt>
+                    </dl>
+                    <dl>
+                        <dt>Название</dt>
+                        <dd><input type="text" name="${sectionType.name()}_name_${organizationList.size()}" size="80" value=""></dd>
+                    </dl>
+                    <dl>
+                        <dt>Ссылка</dt>
+                        <dd><input type="text" name="${sectionType.name()}_page_${organizationList.size()}" size="80" value=""></dd>
+                    </dl>
+                    <input type="hidden" name="${sectionType.name()}_${organizationList.size()}_positions" size="80" value="1">
+                    <dl>
+                        <dt>Дата начала</dt>
+                        <dd><input type="text" name="${sectionType.name()}_startDate_${organizationList.size()}_0" size="80" value="${position.startDate}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>Дата окончания</dt>
+                        <dd><input type="text" name="${sectionType.name()}_endDate_${organizationList.size()}_0" size="80" value="${position.endDate}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>Должность</dt>
+                        <dd><input type="text" name="${sectionType.name()}_title_${organizationList.size()}_0" size="80" value="${position.title}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>Описание</dt>
+                        <dd><input type="text" name="${sectionType.name()}_description_${organizationList.size()}_0" size="80" value="${position.description}"></dd>
+                    </dl>
+                </c:when>
+                <c:otherwise>
+                    <dl>
+                        <dt>${sectionType.title}</dt>
+                        <p><textarea rows="3" cols="45" name="${sectionType.name()}">${resume.getSection(sectionType)}</textarea></p>
+                    </dl>
+                </c:otherwise>
+            </c:choose>
         </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>

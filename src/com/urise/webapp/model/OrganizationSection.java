@@ -25,7 +25,7 @@ public class OrganizationSection extends Section {
         this.organizations = organizations;
     }
 
-    public List<Organization> getExperienceList() {
+    public List<Organization> getOrganizationsList() {
         return organizations;
     }
 

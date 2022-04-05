@@ -67,7 +67,7 @@ public class DataStreamSerializer implements StreamSerializer {
                     break;
                 case EXPERIENCE:
                 case EDUCATION:
-                    writeWithException(dataOutputStream, ((OrganizationSection) entry.getValue()).getExperienceList(),
+                    writeWithException(dataOutputStream, ((OrganizationSection) entry.getValue()).getOrganizationsList(),
                     organization -> {
                         dataOutputStream.writeUTF(organization.getHomePage().getName());
                         dataOutputStream.writeUTF(organization.getHomePage().getUrl() != null

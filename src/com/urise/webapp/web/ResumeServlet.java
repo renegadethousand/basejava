@@ -2,7 +2,9 @@ package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
 import com.urise.webapp.model.ContactType;
+import com.urise.webapp.model.Link;
 import com.urise.webapp.model.ListSection;
+import com.urise.webapp.model.Organization;
 import com.urise.webapp.model.OrganizationSection;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.model.SectionType;
@@ -14,7 +16,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.urise.webapp.model.SectionType.*;
@@ -71,9 +76,6 @@ public class ResumeServlet extends HttpServlet {
                                 .filter(el -> !el.isEmpty())
                                 .collect(Collectors.toList())));
                         break;
-                    case EXPERIENCE:
-                    case EDUCATION:
-                        break;
                     default:
                         break;
                 }
@@ -81,12 +83,41 @@ public class ResumeServlet extends HttpServlet {
                 resume.getSections().remove(type);
             }
         }
+        readOrganizationSection(EXPERIENCE, resume, request);
+        readOrganizationSection(EDUCATION, resume, request);
         if (isNewResume) {
             storage.save(resume);
         } else {
             storage.update(resume);
         }
         response.sendRedirect("resume");
+    }
+
+    private void readOrganizationSection(SectionType type, Resume resume, HttpServletRequest request) {
+        List<Organization> organizationList = new ArrayList<>();
+        int organizations_count = Integer.parseInt(request.getParameter(type.name() + "_organizations"));
+        for (int i = 0; i < organizations_count; i++) {
+            if (request.getParameter(type.name() + "_name_" + i).isEmpty()) {
+                continue;
+            }
+            int positions_count = Integer.parseInt(request.getParameter(type.name() + "_" + i + "_positions"));
+            List<Organization.Position> positionList = new ArrayList<>();
+            for (int j = 0; j < positions_count; j++) {
+                if (request.getParameter(type.name() + "_title_" + i + "_" + j).isEmpty()) {
+                    continue;
+                }
+                positionList.add(new Organization.Position(
+                        LocalDate.parse(request.getParameter(type.name() + "_startDate_" + i + "_" + j)),
+                        LocalDate.parse(request.getParameter(type.name() + "_endDate_" + i + "_" + j)),
+                        request.getParameter(type.name() + "_title_" + i + "_" + j),
+                        request.getParameter(type.name() + "_description_" + i + "_" + j)));
+            }
+            organizationList.add(new Organization(
+                    new Link(request.getParameter(type.name() + "_name_" + i),
+                            request.getParameter(type.name() + "_page_" + i)),
+                    positionList));
+        }
+        resume.addSection(type, new OrganizationSection(organizationList));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -113,6 +144,8 @@ public class ResumeServlet extends HttpServlet {
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
         }
+        resume.getSections().putIfAbsent(EXPERIENCE, new OrganizationSection(new ArrayList<>()));
+        resume.getSections().putIfAbsent(EDUCATION, new OrganizationSection(new ArrayList<>()));
         request.setAttribute("resume", resume);
         request.getRequestDispatcher(
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")

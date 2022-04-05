@@ -1,7 +1,5 @@
 package com.urise.webapp.model;
 
-import org.w3c.dom.Text;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -82,7 +80,7 @@ public enum SectionType {
     }
 
     public String getContentOrganizationSection(Section section) {
-        List<Organization> value = ((OrganizationSection) section).getExperienceList();
+        List<Organization> value = ((OrganizationSection) section).getOrganizationsList();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<h3>")
                 .append(getTitle())
