@@ -61,6 +61,9 @@ public enum SectionType {
 
     public String getContentTextSection(Section section) {
         String value = ((TextSection) section).getContent();
+        if (value.isEmpty()) {
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<h3>")
                 .append(getTitle())
@@ -71,6 +74,9 @@ public enum SectionType {
 
     public String getContentListSection(Section section) {
         List<String> value = ((ListSection) section).getItems();
+        if (value.isEmpty()) {
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<h3>")
                 .append(getTitle())
@@ -81,6 +87,9 @@ public enum SectionType {
 
     public String getContentOrganizationSection(Section section) {
         List<Organization> value = ((OrganizationSection) section).getOrganizationsList();
+        if (value.isEmpty()) {
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<h3>")
                 .append(getTitle())
