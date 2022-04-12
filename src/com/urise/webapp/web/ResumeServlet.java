@@ -67,7 +67,7 @@ public class ResumeServlet extends HttpServlet {
                 }
                 break;
             case "add":
-                resume = new Resume();
+                resume = Resume.EMPTY;
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
