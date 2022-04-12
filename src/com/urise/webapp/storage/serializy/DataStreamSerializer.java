@@ -101,7 +101,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void readContacts(DataInputStream dataInputStream, Resume resume) throws IOException {
         forEachReadVoidWithException(dataInputStream, () -> {
-            resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
+            resume.setContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
         });
     }
 
@@ -112,11 +112,11 @@ public class DataStreamSerializer implements StreamSerializer {
                 case PERSONAL:
                 case OBJECTIVE:
                 case ACHIEVEMENT:
-                    resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
+                    resume.setSection(sectionType, new TextSection(dataInputStream.readUTF()));
                     break;
                 case QUALIFICATIONS:
                     List<String> list = readWithException(dataInputStream, dataInputStream::readUTF);
-                    resume.addSection(sectionType, new ListSection(list));
+                    resume.setSection(sectionType, new ListSection(list));
                     break;
                 case EXPERIENCE:
                 case EDUCATION:
@@ -131,7 +131,7 @@ public class DataStreamSerializer implements StreamSerializer {
                                     );
                                 }));
                     });
-                    resume.addSection(sectionType, new OrganizationSection(organizations));
+                    resume.setSection(sectionType, new OrganizationSection(organizations));
                     break;
                 default:
                     break;

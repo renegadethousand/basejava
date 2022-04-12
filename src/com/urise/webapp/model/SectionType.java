@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public enum SectionType {
-    PERSONAL("Личные качества") {
+    OBJECTIVE("Позиция") {
         @Override
         public String toHtml0(Section section) {
             return getContentTextSection(section);
         }
     },
-    OBJECTIVE("Позиция") {
+    PERSONAL("Личные качества") {
         @Override
         public String toHtml0(Section section) {
             return getContentTextSection(section);

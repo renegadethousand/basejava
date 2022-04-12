@@ -2,11 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.ListSection;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.model.Section;
 import com.urise.webapp.model.SectionType;
-import com.urise.webapp.model.TextSection;
 import com.urise.webapp.sql.SqlHelper;
 import com.urise.webapp.util.JsonParser;
 
@@ -16,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -244,7 +241,7 @@ public class SqlStorage implements Storage {
         if (resultSet.getString("value") != null) {
             String value = resultSet.getString("value");
             ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
-            resume.addContact(contactType, value);
+            resume.setContact(contactType, value);
         }
     }
 
@@ -252,7 +249,7 @@ public class SqlStorage implements Storage {
         String content = resultSet.getString("content");
         if (content != null) {
             SectionType type = SectionType.valueOf(resultSet.getString("type"));
-            resume.addSection(type, JsonParser.read(content, Section.class));
+            resume.setSection(type, JsonParser.read(content, Section.class));
         }
     }
 }
